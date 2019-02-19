@@ -2,22 +2,23 @@ Class {
 	#name : #MDPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'classCohesionItem',
-		'systemCohesionItem',
-		'packageCohesionItem',
-		'emptyButton'
+		'model',
+		'listView',
+		'metricPresenter'
 	],
 	#category : #'MetricDashboard-Core'
 }
 
 { #category : #specs }
+MDPresenter class >> create [
+	self new selfbuilding
+]
+
+{ #category : #specs }
 MDPresenter class >> defaultSpec [
-	^ SpecLayout composed
-		add: #systemCohesionItem origin: 0 @ 0 corner: 0.4 @ 0.25;
-		add: #packageCohesionItem origin: 0.5 @ 0 corner: 0.9 @ 0.25;
-		add: #classCohesionItem origin: 0 @ 0.35 corner: 0.4 @ 0.60;
-		add: #classCohesionItem origin: 0.5 @ 0.35 corner: 0.9 @ 0.60;
-		add: #classCohesionItem origin: 0 @ 0.75 corner: 0.4 @ 1;
+	^ SpecColumnLayout composed
+		add: #listView;
+		add: #metricPresenter;
 		yourself
 ]
 
@@ -27,41 +28,49 @@ MDPresenter class >> runMe [
 	self new openWithSpec
 ]
 
-{ #category : #accessing }
-MDPresenter >> classCohesionItem [
-	^ classCohesionItem
-]
-
-{ #category : #accessing }
-MDPresenter >> classCohesionItem: anObject [
-	classCohesionItem := anObject
-]
-
-{ #category : #accessing }
-MDPresenter >> emptyButton [
-	^ emptyButton
+{ #category : #initialization }
+MDPresenter >> initListView [
+	listView := self instantiate: FastTablePresenter.
+	listView handlesDoubleClick: true
 ]
 
 { #category : #initialization }
 MDPresenter >> initializeWidgets [
-	classCohesionItem := self newButton
-	label: 'classCohesionItem'.
-	systemCohesionItem := self newButton
-	label: 'systemCohesionItem'.
-	packageCohesionItem := self newButton
-	label:'packageCohesionItem'.
-	emptyButton := self newButton
-	
+	self initListView.
+	metricPresenter := self instantiate: MDMetricPresenter
 ]
 
 { #category : #accessing }
-MDPresenter >> packageCohesionItem [
-	^ packageCohesionItem
+MDPresenter >> listView [
+	^ listView
 ]
 
 { #category : #accessing }
-MDPresenter >> systemCohesionItem [
-	^ systemCohesionItem
+MDPresenter >> loadStudyModel [
+model loadProjectFromMSEFile
+]
+
+{ #category : #accessing }
+MDPresenter >> metricPresenter [
+	^ metricPresenter
+]
+
+{ #category : #accessing }
+MDPresenter >> model [
+	^ model
+]
+
+{ #category : #accessing }
+MDPresenter >> populateListView [
+	^listView items: model projectModelClasses
+]
+
+{ #category : #'as yet unclassified' }
+MDPresenter >> selfbuilding [
+self loadStudyModel.
+self populateListView.
+self openWorldWithSpec .
+
 ]
 
 { #category : #api }
