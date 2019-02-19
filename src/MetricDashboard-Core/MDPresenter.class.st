@@ -35,6 +35,12 @@ MDPresenter >> initListView [
 ]
 
 { #category : #initialization }
+MDPresenter >> initializePresenter [
+	listView doubleClickAction: [ :item | model currentClass: item .
+		model updatePresenter:self]
+]
+
+{ #category : #initialization }
 MDPresenter >> initializeWidgets [
 	self initListView.
 	metricPresenter := self instantiate: MDMetricPresenter
