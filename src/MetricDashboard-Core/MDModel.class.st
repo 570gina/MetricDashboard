@@ -32,6 +32,11 @@ MDModel >> currentClass: anObject [
 	currentClass := anObject
 ]
 
+{ #category : #accessing }
+MDModel >> currentClassCohesion [
+^ currentClass tightClassCohesion
+]
+
 { #category : #'as yet unclassified' }
 MDModel >> loadProjectFromMSEFile [
 	MVSMSELoader importModel.
