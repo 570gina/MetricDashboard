@@ -19,9 +19,9 @@ MDPresenter class >> create [
 
 { #category : #specs }
 MDPresenter class >> defaultSpec [
-	^ SpecRowLayout composed
-		newColumn: [ :cl | cl add: #listView ];
+	^ SpecColumnLayout composed
 		newColumn: [ :cl | cl add: #metricPresenter ];
+		newColumn: [ :cl | cl add: #listView ];
 		yourself
 ]
 
@@ -65,7 +65,7 @@ MDPresenter >> listView [
 ]
 
 { #category : #accessing }
-MDPresenter >> loadStudyModel [
+MDPresenter >> loadModelToStudy [
 model loadProjectFromMSEFile
 ]
 
@@ -86,7 +86,7 @@ MDPresenter >> populateListView [
 
 { #category : #'initialization-release' }
 MDPresenter >> selfbuilding [
-self loadStudyModel.
+self loadModelToStudy.
 self populateListView.
 self openWithSpec .
 

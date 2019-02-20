@@ -68,8 +68,8 @@ MDModel >> projectModelClasses [
 MDModel >> updatePresenter: aPresenter [
 	| updater |
 	updater := MDUpdater new
-		currentClassCohesion: self currentClassCohesion asString;
-		averageSystemClassesTightCohesion: self averageSystemClassesTightCohesion asString;
-		averageclassePackageTightCohesion: self averageclassePackageTightCohesion asString.
+		currentClassCohesion: 'Class TCC: ' , self currentClassCohesion asString;
+		averageSystemClassesTightCohesion: 'AVG Sys TCC: ' , self averageSystemClassesTightCohesion asString;
+		averageclassePackageTightCohesion: 'AVG Pkg TCC: ' , self averageclassePackageTightCohesion asString.
 	aPresenter updateMetricPresenterWith: updater
 ]
