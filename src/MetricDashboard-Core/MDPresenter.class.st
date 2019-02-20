@@ -1,3 +1,6 @@
+"
+main presenter
+"
 Class {
 	#name : #MDPresenter,
 	#superclass : #ComposablePresenter,
@@ -25,7 +28,7 @@ MDPresenter class >> defaultSpec [
 { #category : #specs }
 MDPresenter class >> runMe [
 	<script>
-	self new openWithSpec
+	self create
 ]
 
 { #category : #initialization }
@@ -36,14 +39,15 @@ MDPresenter >> initListView [
 
 { #category : #initialization }
 MDPresenter >> initializePresenter [
-	listView doubleClickAction: [ :item | model currentClass: item .
+	listView doubleClickAction: [ :item | model currentClass: listView selectedItem  .
 		model updatePresenter:self]
 ]
 
 { #category : #initialization }
 MDPresenter >> initializeWidgets [
 	self initListView.
-	metricPresenter := self instantiate: MDMetricPresenter
+	metricPresenter := self instantiate: MDMetricPresenter.
+	model := MDModel new
 ]
 
 { #category : #accessing }
@@ -71,7 +75,7 @@ MDPresenter >> populateListView [
 	^listView items: model projectModelClasses
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialization-release' }
 MDPresenter >> selfbuilding [
 self loadStudyModel.
 self populateListView.
@@ -82,4 +86,12 @@ self openWorldWithSpec .
 { #category : #api }
 MDPresenter >> title [
 ^'Metric DashBoard'
+]
+
+{ #category : #'as yet unclassified' }
+MDPresenter >> updateMetricPresenterWith: anUpdater [
+	metricPresenter
+		updateClassCohesionItemLabel: anUpdater currentClassCohesion;
+		updatePackageCohesionItemLabel: anUpdater averageclassePackageTightCohesion;
+		updateSystemCohesionItemLabel: anUpdater averageSystemClassesTightCohesion
 ]

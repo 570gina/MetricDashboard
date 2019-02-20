@@ -1,3 +1,6 @@
+"
+I'm the model 
+"
 Class {
 	#name : #MDModel,
 	#superclass : #Object,
@@ -37,7 +40,7 @@ MDModel >> currentClassCohesion [
 ^ currentClass tightClassCohesion
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MDModel >> loadProjectFromMSEFile [
 	MVSMSELoader importModel.
 	projectModel := MooseModel root last
@@ -53,12 +56,17 @@ MDModel >> projectModel: anObject [
 	projectModel := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 MDModel >> projectModelClasses [
 ^projectModel allModelClasses 
 ]
 
-{ #category : #'as yet unclassified' }
-MDModel >> updatePresenter:aPresenter [
-
+{ #category : #utilities }
+MDModel >> updatePresenter: aPresenter [
+	| updater |
+	updater := MDUpdater new
+		currentClassCohesion: self currentClassCohesion;
+		averageSystemClassesTightCohesion: self averageSystemClassesTightCohesion;
+		averageclassePackageTightCohesion: self averageclassePackageTightCohesion.
+	aPresenter updateMetricPresenterWith: updater
 ]

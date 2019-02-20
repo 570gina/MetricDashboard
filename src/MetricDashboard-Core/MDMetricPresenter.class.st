@@ -1,3 +1,6 @@
+"
+I'm the actual dashbord
+"
 Class {
 	#name : #MDMetricPresenter,
 	#superclass : #ComposablePresenter,
@@ -41,4 +44,19 @@ MDMetricPresenter >> packageCohesionItem [
 { #category : #accessing }
 MDMetricPresenter >> systemCohesionItem [
 	^ systemCohesionItem
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> updateClassCohesionItemLabel:aLabel [
+	 ^classCohesionItem label: aLabel 
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> updatePackageCohesionItemLabel:aLabel [
+	^ packageCohesionItem label: aLabel
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> updateSystemCohesionItemLabel:aLabel [
+	^ systemCohesionItem label:aLabel
 ]
