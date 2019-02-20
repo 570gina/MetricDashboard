@@ -19,9 +19,9 @@ MDPresenter class >> create [
 
 { #category : #specs }
 MDPresenter class >> defaultSpec [
-	^ SpecColumnLayout composed
-		add: #listView;
-		add: #metricPresenter;
+	^ SpecRowLayout composed
+		newColumn: [ :cl | cl add: #listView ];
+		newColumn: [ :cl | cl add: #metricPresenter ];
 		yourself
 ]
 
@@ -29,6 +29,11 @@ MDPresenter class >> defaultSpec [
 MDPresenter class >> runMe [
 	<script>
 	self create
+]
+
+{ #category : #update }
+MDPresenter >> extent [
+^600@400
 ]
 
 { #category : #initialization }
@@ -39,8 +44,12 @@ MDPresenter >> initListView [
 
 { #category : #initialization }
 MDPresenter >> initializePresenter [
-	listView doubleClickAction: [ :item | model currentClass: listView selectedItem  .
-		model updatePresenter:self]
+	listView
+		doubleClickAction: [ :item | 
+			| selected |
+			selected := listView selectedItem.
+			model currentClass: selected.
+			model updatePresenter: self ]
 ]
 
 { #category : #initialization }
@@ -79,7 +88,7 @@ MDPresenter >> populateListView [
 MDPresenter >> selfbuilding [
 self loadStudyModel.
 self populateListView.
-self openWorldWithSpec .
+self openWithSpec .
 
 ]
 
@@ -88,7 +97,7 @@ MDPresenter >> title [
 ^'Metric DashBoard'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDPresenter >> updateMetricPresenterWith: anUpdater [
 	metricPresenter
 		updateClassCohesionItemLabel: anUpdater currentClassCohesion;

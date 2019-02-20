@@ -13,13 +13,16 @@ Class {
 
 { #category : #accessing }
 MDModel >> averageSystemClassesTightCohesion [
-^(self projectModelClasses  inject: 0 into:[:sum :each| sum+each tightClassCohesion ] )/self size
+	^ (self projectModelClasses
+		inject: 0
+		into: [ :sum :each | sum + each tightClassCohesion ])
+		/ self projectModelClasses size
 ]
 
 { #category : #accessing }
 MDModel >> averageclassePackageTightCohesion [
 |packageClasses|
-packageClasses := currentClass parentType allClasses.
+packageClasses := currentClass typeContainer classes.
 	^ ( packageClasses 
 		inject: 0
 		into: [ :sum :each | sum + each tightClassCohesion ]) / packageClasses size
@@ -58,15 +61,15 @@ MDModel >> projectModel: anObject [
 
 { #category : #utilities }
 MDModel >> projectModelClasses [
-^projectModel allModelClasses 
+	^ projectModel allModelClasses
 ]
 
 { #category : #utilities }
 MDModel >> updatePresenter: aPresenter [
 	| updater |
 	updater := MDUpdater new
-		currentClassCohesion: self currentClassCohesion;
-		averageSystemClassesTightCohesion: self averageSystemClassesTightCohesion;
-		averageclassePackageTightCohesion: self averageclassePackageTightCohesion.
+		currentClassCohesion: self currentClassCohesion asString;
+		averageSystemClassesTightCohesion: self averageSystemClassesTightCohesion asString;
+		averageclassePackageTightCohesion: self averageclassePackageTightCohesion asString.
 	aPresenter updateMetricPresenterWith: updater
 ]
