@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'model',
 		'listView',
-		'metricPresenter'
+		'metricPresenter',
+		'metricList'
 	],
 	#category : #'MetricDashboard-Core'
 }
@@ -23,6 +24,7 @@ MDPresenter class >> create [
 MDPresenter class >> defaultSpec [
 	^ SpecTableLayout column
 		cellInset: 50;
+		add: #metricList;
 		add: #metricPresenter;
 		add: #listView;
 		yourself
@@ -58,16 +60,17 @@ MDPresenter >> initializePresenter [
 		doubleClickAction: [ :item | 
 			| selected |
 			selected := listView selectedItem.
-			model studyModel: selected
-
-			"model updatePresenter: self" ]
+			model studyModel: selected.
+			model updatePresenter: self ]
 ]
 
 { #category : #initialization }
 MDPresenter >> initializeWidgets [
 	self initListView.
 	metricPresenter := self instantiate: MDMetricDashBoard.
-	model := MDModel new
+	model := MDModel new.
+	metricList := self newDropList . 
+	
 ]
 
 { #category : #accessing }
@@ -78,6 +81,16 @@ MDPresenter >> listView [
 { #category : #accessing }
 MDPresenter >> loadModelToStudy [
 model loadProjectFromMSEFile
+]
+
+{ #category : #accessing }
+MDPresenter >> metricList [
+	^ metricList
+]
+
+{ #category : #accessing }
+MDPresenter >> metricList: anObject [
+	metricList := anObject
 ]
 
 { #category : #accessing }

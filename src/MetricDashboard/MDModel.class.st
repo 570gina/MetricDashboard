@@ -32,7 +32,8 @@ MDModel >> currentClassCohesion [
 { #category : #utilities }
 MDModel >> loadProjectFromMSEFile [
 	MVSMSELoader importModel.
-	projectModel := MooseModel root last
+	MooseModel root isEmpty
+		ifFalse: [ projectModel := MooseModel root last ]
 ]
 
 { #category : #accessing }
