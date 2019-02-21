@@ -1,6 +1,6 @@
 Extension { #name : #FAMIXType }
 
-{ #category : #'*MetricDashboard-Core' }
+{ #category : #'*MetricDashboard' }
 FAMIXType >> tightClassCohesion [
 	<MSEProperty: #tightClassCohesion type: #Number>
 	<derived>

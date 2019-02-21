@@ -19,9 +19,10 @@ MDPresenter class >> create [
 
 { #category : #specs }
 MDPresenter class >> defaultSpec [
-	^ SpecColumnLayout composed
-		newColumn: [ :cl | cl add: #metricPresenter ];
-		newColumn: [ :cl | cl add: #listView ];
+	^ SpecTableLayout column
+		cellInset: 20;
+		add: #metricPresenter;
+		add: #listView;
 		yourself
 ]
 

@@ -64,12 +64,30 @@ MDModel >> projectModelClasses [
 	^ projectModel allModelClasses
 ]
 
+{ #category : #conversion }
+MDModel >> truncateFloat: aFloat to: aValue [
+	^ (aFloat truncateTo: aValue) asString
+]
+
 { #category : #utilities }
 MDModel >> updatePresenter: aPresenter [
-	| updater |
+	| updater precision |
+	precision := 0.01.
 	updater := MDUpdater new
-		currentClassCohesion: 'Class TCC: ' , self currentClassCohesion asString;
-		averageSystemClassesTightCohesion: 'AVG Sys TCC: ' , self averageSystemClassesTightCohesion asString;
-		averageclassePackageTightCohesion: 'AVG Pkg TCC: ' , self averageclassePackageTightCohesion asString.
+		currentClassCohesion:
+			'Class TCC: '
+				, (self truncateFloat: self currentClassCohesion to: precision);
+		averageSystemClassesTightCohesion:
+			'AVG Sys TCC: '
+				,
+					(self
+						truncateFloat: self averageSystemClassesTightCohesion
+						to: precision);
+		averageclassePackageTightCohesion:
+			'AVG Pkg TCC: '
+				,
+					(self
+						truncateFloat: self averageclassePackageTightCohesion
+						to: precision).
 	aPresenter updateMetricPresenterWith: updater
 ]
