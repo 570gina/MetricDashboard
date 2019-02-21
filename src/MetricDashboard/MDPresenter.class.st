@@ -14,7 +14,9 @@ Class {
 
 { #category : #specs }
 MDPresenter class >> create [
-	self new selfbuilding
+	self new selfbuilding;
+	openWithSpec
+	
 ]
 
 { #category : #specs }
@@ -56,8 +58,9 @@ MDPresenter >> initializePresenter [
 		doubleClickAction: [ :item | 
 			| selected |
 			selected := listView selectedItem.
-			model studyModel: selected.
-			model updatePresenter: self ]
+			model studyModel: selected
+
+			"model updatePresenter: self" ]
 ]
 
 { #category : #initialization }
@@ -96,13 +99,13 @@ MDPresenter >> populateListView [
 MDPresenter >> selfbuilding [
 self loadModelToStudy.
 self populateListView.
-self openWithSpec .
+
 
 ]
 
 { #category : #accessing }
 MDPresenter >> simulateDoubleClick [
-	self listView doubleClick: self listView doubleClickAction
+	^listView doubleClick: listView doubleClickAction
 ]
 
 { #category : #api }

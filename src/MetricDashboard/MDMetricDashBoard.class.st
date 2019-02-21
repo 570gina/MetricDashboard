@@ -19,6 +19,7 @@ MDMetricDashBoard class >> defaultSpec [
 	^ SpecTableLayout row
 		cellInset: 10;
 		maxCellSize: 150; 
+		minCellSize: 100;
 		vResizing:#shrinkWrap ;
 		hResizing: #shrinkWrap;
 		add: #systemCohesionItem;

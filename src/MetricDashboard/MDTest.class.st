@@ -66,7 +66,8 @@ MDTest >> setUp [
 	rootCurrent := MooseModel root.
 	MooseModel resetRoot.
 	MooseModel root add: self createTestingMSE.
-	presenter := MDPresenter new  .
+	presenter := MDPresenter new.
+	presenter listView items: MooseModel root last mvsGroupEntitycache
 ]
 
 { #category : #running }
@@ -81,7 +82,8 @@ MDTest >> tearDown [
 
 { #category : #tests }
 MDTest >> testStudyModelShouldNotBeNilIfDoubleClick [
-presenter listView setSelectedItem: presenter listView listItems .
-presenter simulateDoubleClick. 
-self deny: presenter model studyModel isNil
+	presenter listView setSelectedItem: presenter listView listItems first.
+	presenter listView selectedItem.
+	presenter simulateDoubleClick.
+	self deny: presenter model studyModel isNil
 ]
