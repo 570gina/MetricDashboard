@@ -20,7 +20,7 @@ MDPresenter class >> create [
 { #category : #specs }
 MDPresenter class >> defaultSpec [
 	^ SpecTableLayout column
-		cellInset: 20;
+		cellInset: 50;
 		add: #metricPresenter;
 		add: #listView;
 		yourself
@@ -40,7 +40,14 @@ MDPresenter >> extent [
 { #category : #initialization }
 MDPresenter >> initListView [
 	listView := self instantiate: FastTablePresenter.
-	listView handlesDoubleClick: true
+	listView
+		handlesDoubleClick: true;
+		displayBlock: [ :item | 
+			item class = MooseModel
+				ifTrue: [ item name ]
+				ifFalse: [ item asString copyReplaceAll: 'famixt' with: 'famix' ] ];
+		icons: [ :item | item mooseIcon ];
+		sortingBlock: [ :a :b | a asString < b asString ]
 ]
 
 { #category : #initialization }
@@ -49,14 +56,14 @@ MDPresenter >> initializePresenter [
 		doubleClickAction: [ :item | 
 			| selected |
 			selected := listView selectedItem.
-			model currentClass: selected.
+			model studyModel: selected.
 			model updatePresenter: self ]
 ]
 
 { #category : #initialization }
 MDPresenter >> initializeWidgets [
 	self initListView.
-	metricPresenter := self instantiate: MDMetricPresenter.
+	metricPresenter := self instantiate: MDMetricDashBoard.
 	model := MDModel new
 ]
 
@@ -82,7 +89,7 @@ MDPresenter >> model [
 
 { #category : #accessing }
 MDPresenter >> populateListView [
-	^listView items: model projectModelClasses
+	^listView items: model projectModelPragmas 
 ]
 
 { #category : #'initialization-release' }
@@ -91,6 +98,11 @@ self loadModelToStudy.
 self populateListView.
 self openWithSpec .
 
+]
+
+{ #category : #accessing }
+MDPresenter >> simulateDoubleClick [
+	self listView doubleClick: self listView doubleClickAction
 ]
 
 { #category : #api }

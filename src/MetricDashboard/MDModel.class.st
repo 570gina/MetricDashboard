@@ -6,41 +6,27 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'projectModel',
-		'currentClass'
+		'studyModel'
 	],
 	#category : #'MetricDashboard-Core'
 }
 
 { #category : #accessing }
 MDModel >> averageSystemClassesTightCohesion [
-	^ (self projectModelClasses
+	^ (self projectModelPragmas
 		inject: 0
 		into: [ :sum :each | sum + each tightClassCohesion ])
-		/ self projectModelClasses size
+		/ self projectModelPragmas size
 ]
 
 { #category : #accessing }
 MDModel >> averageclassePackageTightCohesion [
-|packageClasses|
-packageClasses := currentClass typeContainer classes.
-	^ ( packageClasses 
-		inject: 0
-		into: [ :sum :each | sum + each tightClassCohesion ]) / packageClasses size
-]
 
-{ #category : #accessing }
-MDModel >> currentClass [
-	^ currentClass
-]
-
-{ #category : #accessing }
-MDModel >> currentClass: anObject [
-	currentClass := anObject
 ]
 
 { #category : #accessing }
 MDModel >> currentClassCohesion [
-^ currentClass tightClassCohesion
+
 ]
 
 { #category : #utilities }
@@ -60,8 +46,18 @@ MDModel >> projectModel: anObject [
 ]
 
 { #category : #utilities }
-MDModel >> projectModelClasses [
-	^ projectModel allModelClasses
+MDModel >> projectModelPragmas [
+	^ projectModel mvsGroupEntitycache
+]
+
+{ #category : #accessing }
+MDModel >> studyModel [
+	^ studyModel
+]
+
+{ #category : #accessing }
+MDModel >> studyModel: anObject [
+	studyModel := anObject
 ]
 
 { #category : #conversion }
@@ -71,7 +67,7 @@ MDModel >> truncateFloat: aFloat to: aValue [
 
 { #category : #utilities }
 MDModel >> updatePresenter: aPresenter [
-	| updater precision |
+	"| updater precision |
 	precision := 0.01.
 	updater := MDUpdater new
 		currentClassCohesion:
@@ -89,5 +85,5 @@ MDModel >> updatePresenter: aPresenter [
 					(self
 						truncateFloat: self averageclassePackageTightCohesion
 						to: precision).
-	aPresenter updateMetricPresenterWith: updater
+	aPresenter updateMetricPresenterWith: updater"
 ]

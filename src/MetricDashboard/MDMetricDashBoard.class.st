@@ -2,7 +2,7 @@
 I'm the actual dashbord
 "
 Class {
-	#name : #MDMetricPresenter,
+	#name : #MDMetricDashBoard,
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'classCohesionItem',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #specs }
-MDMetricPresenter class >> defaultSpec [
+MDMetricDashBoard class >> defaultSpec [
 	^ SpecTableLayout row
 		cellInset: 10;
 		maxCellSize: 150; 
@@ -29,33 +29,33 @@ MDMetricPresenter class >> defaultSpec [
 ]
 
 { #category : #specs }
-MDMetricPresenter class >> runMe [
+MDMetricDashBoard class >> runMe [
 	<script>
 	^ self new openWithSpec
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> classCohesionItem [
+MDMetricDashBoard >> classCohesionItem [
 	^ classCohesionItem
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> classCohesionItem: anObject [
+MDMetricDashBoard >> classCohesionItem: anObject [
 	classCohesionItem := anObject
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> cohesionTodo1 [
+MDMetricDashBoard >> cohesionTodo1 [
 	^ cohesionTodo1
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> cohesionTodo2 [
+MDMetricDashBoard >> cohesionTodo2 [
 	^ cohesionTodo2
 ]
 
 { #category : #initialization }
-MDMetricPresenter >> initializeWidgets [
+MDMetricDashBoard >> initializeWidgets [
 	classCohesionItem := self newButton
 		label: 'classCohesionItem';
 		icon: (self iconNamed: #class).
@@ -70,26 +70,26 @@ MDMetricPresenter >> initializeWidgets [
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> packageCohesionItem [
+MDMetricDashBoard >> packageCohesionItem [
 	^ packageCohesionItem
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> systemCohesionItem [
+MDMetricDashBoard >> systemCohesionItem [
 	^ systemCohesionItem
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> updateClassCohesionItemLabel:aLabel [
+MDMetricDashBoard >> updateClassCohesionItemLabel:aLabel [
 	 ^classCohesionItem label: aLabel 
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> updatePackageCohesionItemLabel:aLabel [
+MDMetricDashBoard >> updatePackageCohesionItemLabel:aLabel [
 	^ packageCohesionItem label: aLabel
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> updateSystemCohesionItemLabel:aLabel [
+MDMetricDashBoard >> updateSystemCohesionItemLabel:aLabel [
 	^ systemCohesionItem label:aLabel
 ]
