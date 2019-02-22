@@ -6,7 +6,7 @@ Class {
 		'averageclassePackageTightCohesion',
 		'currentClassCohesion'
 	],
-	#category : #'MetricDashboard-Core'
+	#category : #'MooseDashboard-Core'
 }
 
 { #category : #accessing }

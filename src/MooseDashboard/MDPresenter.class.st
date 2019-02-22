@@ -5,19 +5,19 @@ Class {
 	#name : #MDPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'model',
-		'listView',
 		'metricPresenter',
-		'metricList'
+		'metricList',
+		'guiModel',
+		'mooseView'
 	],
-	#category : #'MetricDashboard-Core'
+	#category : #'MooseDashboard-Core'
 }
 
 { #category : #specs }
 MDPresenter class >> create [
-	self new selfbuilding;
-	openWithSpec
-	
+	self new 
+		initMooseModel ;
+		openWithSpec
 ]
 
 { #category : #specs }
@@ -26,7 +26,7 @@ MDPresenter class >> defaultSpec [
 		cellInset: 50;
 		add: #metricList;
 		add: #metricPresenter;
-		add: #listView;
+		add: #mooseView;
 		yourself
 ]
 
@@ -42,9 +42,17 @@ MDPresenter >> extent [
 ]
 
 { #category : #initialization }
-MDPresenter >> initListView [
-	listView := self instantiate: FastTablePresenter.
-	listView
+MDPresenter >> initMooseModel [
+self loadModelToStudy.
+self populateListView.
+
+
+]
+
+{ #category : #initialization }
+MDPresenter >> initMooseModelView [
+	mooseView := self instantiate: FastTablePresenter.
+	mooseView
 		handlesDoubleClick: true;
 		displayBlock: [ :item | 
 			item class = MooseModel
@@ -56,31 +64,27 @@ MDPresenter >> initListView [
 
 { #category : #initialization }
 MDPresenter >> initializePresenter [
-	listView
+	mooseView
 		doubleClickAction: [ :item | 
-			| selected |
-			selected := listView selectedItem.
-			model studyModel: selected.
-			model updatePresenter: self ]
+			guiModel focusedEntities: mooseView selectedItem.
+			metricPresenter updateViewFor: guiModel ]
 ]
 
 { #category : #initialization }
 MDPresenter >> initializeWidgets [
-	self initListView.
+	guiModel := MDGUIModel new.
+	guiModel addMetric: MDMetricLOC new.
+	guiModel addMetric: MDMetricLCOM3 new.
+	guiModel addMetric: MDMetricCyclomaticComplexity new.
+	metricList := self newDropList.
 	metricPresenter := self instantiate: MDMetricDashBoard.
-	model := MDModel new.
-	metricList := self newDropList . 
-	
-]
-
-{ #category : #accessing }
-MDPresenter >> listView [
-	^ listView
+	metricPresenter guiModel: guiModel.
+	self initMooseModelView
 ]
 
 { #category : #accessing }
 MDPresenter >> loadModelToStudy [
-model loadProjectFromMSEFile
+guiModel loadProjectFromMSEFile
 ]
 
 { #category : #accessing }
@@ -100,25 +104,22 @@ MDPresenter >> metricPresenter [
 
 { #category : #accessing }
 MDPresenter >> model [
-	^ model
+	^ guiModel
+]
+
+{ #category : #accessing }
+MDPresenter >> mooseView [
+	^ mooseView
 ]
 
 { #category : #accessing }
 MDPresenter >> populateListView [
-	^listView items: model projectModelPragmas 
-]
-
-{ #category : #'initialization-release' }
-MDPresenter >> selfbuilding [
-self loadModelToStudy.
-self populateListView.
-
-
+	^ mooseView items: guiModel mooseModelSummary
 ]
 
 { #category : #accessing }
 MDPresenter >> simulateDoubleClick [
-	^listView doubleClick: listView doubleClickAction
+	^mooseView doubleClick: mooseView doubleClickAction
 ]
 
 { #category : #api }
@@ -129,7 +130,7 @@ MDPresenter >> title [
 { #category : #update }
 MDPresenter >> updateMetricPresenterWith: anUpdater [
 	metricPresenter
-		updateClassCohesionItemLabel: anUpdater currentClassCohesion;
-		updatePackageCohesionItemLabel: anUpdater averageclassePackageTightCohesion;
-		updateSystemCohesionItemLabel: anUpdater averageSystemClassesTightCohesion
+		updateMetric1Label: anUpdater currentClassCohesion;
+		updateMetric2Label: anUpdater averageclassePackageTightCohesion;
+		updateMetric3Label: anUpdater averageSystemClassesTightCohesion
 ]

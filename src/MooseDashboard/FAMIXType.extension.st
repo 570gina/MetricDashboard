@@ -1,6 +1,13 @@
 Extension { #name : #FAMIXType }
 
-{ #category : #'*MetricDashboard' }
+{ #category : #'*MooseDashboard' }
+FAMIXType >> cyclomaticComplexity [
+	^ (methods collect: #cyclomaticComplexity)
+		ifEmpty: [ 0 ]
+		ifNotEmpty: [ :values | values average asFloat ]
+]
+
+{ #category : #'*MooseDashboard' }
 FAMIXType >> tightClassCohesion [
 	<MSEProperty: #tightClassCohesion type: #Number>
 	<derived>
