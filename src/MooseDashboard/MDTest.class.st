@@ -22,12 +22,14 @@ MDTest >> createFamix: aClass named: aString owner: ownerBlock [
 
 { #category : #running }
 MDTest >> createTestingModel [
-	| pckg clazz |
-	rootCurrent := MooseModel new name: ' testmodel'  ; yourself.
+	| pckg clazz mth |
+	rootCurrent := MooseModel new
+		name: ' testmodel';
+		yourself.
 	pckg := self
 		createFamix: FAMIXPackage
 		named: 'TestMokePackage'
-		owner: [ :x | ].
+		owner: [ :x |  ].
 	clazz := self
 		createFamix: FAMIXClass
 		named: 'TestClass1'
@@ -39,7 +41,22 @@ MDTest >> createTestingModel [
 				createFamix: FAMIXClass
 				named: each
 				owner: [ :c | c parentPackage: pckg ].
-			self inherit: sub from: clazz ]
+			self inherit: sub from: clazz ].
+	mth := self
+		createFamix: FAMIXMethod
+		named: 'testMthd1_1'
+		owner: [ :m | m parentType: clazz ].
+	mth
+		cyclomaticComplexity: 4;
+		numberOfLinesOfCode: 2.
+	clazz := rootCurrent entityNamed: 'TestClass3'.
+	mth := self
+		createFamix: FAMIXMethod
+		named: 'testMthd3_1'
+		owner: [ :m | m parentType: clazz ].
+	mth
+		cyclomaticComplexity: 6;
+		numberOfLinesOfCode: 4
 ]
 
 { #category : #running }
@@ -58,6 +75,26 @@ MDTest >> setUp [
 	self createTestingModel.
 	presenter := MDPresenter new.
 	presenter mooseView items: {rootCurrent allModelClasses}
+]
+
+{ #category : #tests }
+MDTest >> testMDMetricCyclomaticComplexity [
+	| metric classes |
+	classes := rootCurrent allModelClasses.
+	metric := MDMetricCyclomaticComplexity new.
+	self assert: (metric aggregateMetricFor: classes) equals: 2.5.
+	self
+		assert: (metric aggregateMetricFor: (classes copyFrom: 2 to: classes size))
+		equals: 2
+]
+
+{ #category : #tests }
+MDTest >> testMDMetricLOC [
+	| metric |
+	metric := MDMetricLOC new.
+	self
+		assert: (metric aggregateMetricFor: rootCurrent allModelClasses)
+		equals: 6
 ]
 
 { #category : #tests }
