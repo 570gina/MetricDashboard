@@ -4,7 +4,7 @@ I represent the LinesOfCode Metric
 Class {
 	#name : #MDMetricLOC,
 	#superclass : #MDAbstractMetric,
-	#category : #MooseDashboard
+	#category : #'MooseDashboard-Metrics'
 }
 
 { #category : #accessing }

@@ -5,7 +5,7 @@ Class {
 		'rootCurrent',
 		'presenter'
 	],
-	#category : #MooseDashboard
+	#category : #'MooseDashboard-Tests'
 }
 
 { #category : #running }
@@ -47,7 +47,7 @@ MDTest >> createTestingModel [
 		named: 'testMthd1_1'
 		owner: [ :m | m parentType: clazz ].
 	mth
-		cyclomaticComplexity: 4;
+		cyclomaticComplexity: 8;
 		numberOfLinesOfCode: 2.
 	clazz := rootCurrent entityNamed: 'TestClass3'.
 	mth := self
@@ -81,8 +81,10 @@ MDTest >> setUp [
 MDTest >> testMDMetricCyclomaticComplexity [
 	| metric classes |
 	classes := rootCurrent allModelClasses.
+	classes
+		sort: [ :a :b | a cyclomaticComplexity > b cyclomaticComplexity ].
 	metric := MDMetricCyclomaticComplexity new.
-	self assert: (metric aggregateMetricFor: classes) equals: 2.5.
+	self assert: (metric aggregateMetricFor: classes) equals: 3.5.
 	self
 		assert: (metric aggregateMetricFor: (classes copyFrom: 2 to: classes size))
 		equals: 2

@@ -4,7 +4,7 @@ I represent the cyclomatic complexity Metric
 Class {
 	#name : #MDMetricCyclomaticComplexity,
 	#superclass : #MDAbstractMetric,
-	#category : #MooseDashboard
+	#category : #'MooseDashboard-Metrics'
 }
 
 { #category : #accessing }
@@ -14,6 +14,7 @@ MDMetricCyclomaticComplexity class >> displayName [
 
 { #category : #compute }
 MDMetricCyclomaticComplexity >> aggregateMetricFor: aCollection [
+
 	^ self averageMetricFor: aCollection
 ]
 

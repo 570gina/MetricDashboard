@@ -5,7 +5,7 @@ I can compute my value on the entity or aggregate my values over a collection of
 Class {
 	#name : #MDAbstractMetric,
 	#superclass : #Object,
-	#category : #MooseDashboard
+	#category : #'MooseDashboard-Metrics'
 }
 
 { #category : #accessing }
