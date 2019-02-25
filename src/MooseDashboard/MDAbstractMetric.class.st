@@ -35,6 +35,16 @@ MDAbstractMetric >> displayName [
 ]
 
 { #category : #compute }
+MDAbstractMetric >> maxMetricFor: aCollection [
+	^ (aCollection collect: [ :each| self computeMetricFor: each])  max
+]
+
+{ #category : #compute }
+MDAbstractMetric >> minMetricFor: aCollection [
+	^ (aCollection collect: [ :each | self computeMetricFor: each ]) min
+]
+
+{ #category : #compute }
 MDAbstractMetric >> sumMetricFor: aCollection [
 	^ (aCollection collect: [ :each | self computeMetricFor: each ])
 		sum
