@@ -5,20 +5,12 @@ I can compute my value on the entity or aggregate my values over a collection of
 Class {
 	#name : #MDAbstractMetric,
 	#superclass : #Object,
-	#instVars : [
-		'subscribers'
-	],
 	#category : #'MooseDashboard-Metrics'
 }
 
 { #category : #accessing }
 MDAbstractMetric class >> displayName [
 	^'Unknown metric'
-]
-
-{ #category : #initialization }
-MDAbstractMetric >> addListener: anObject [
-	subscribers add: anObject
 ]
 
 { #category : #compute }
@@ -42,12 +34,6 @@ MDAbstractMetric >> displayName [
 	^self class displayName
 ]
 
-{ #category : #initialization }
-MDAbstractMetric >> initialize [
-	super initialize.
-	subscribers := OrderedCollection new
-]
-
 { #category : #compute }
 MDAbstractMetric >> maxMetricFor: aCollection [
 	^ (aCollection collect: [ :each| self computeMetricFor: each])  max
@@ -62,4 +48,15 @@ MDAbstractMetric >> minMetricFor: aCollection [
 MDAbstractMetric >> sumMetricFor: aCollection [
 	^ (aCollection collect: [ :each | self computeMetricFor: each ]) asOrderedCollection 
 		sum
+]
+
+{ #category : #updating }
+MDAbstractMetric >> update: aMetricPresenter with: anObject [
+| col |
+col:= OrderedCollection new.
+col add: self displayName .
+col add: (self aggregateMetricFor: anObject ).
+
+aMetricPresenter updateWith: col.
+	
 ]

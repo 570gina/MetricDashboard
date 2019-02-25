@@ -73,7 +73,7 @@ MDTest >> inherit: sub from: supr [
 MDTest >> setUp [
 	super setUp.
 	self createTestingModel.
-	presenter := MDPresenter new.
+	presenter := MDMainPresenter new.
 	presenter mooseView items: {rootCurrent allModelClasses}
 ]
 

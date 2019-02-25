@@ -2,7 +2,7 @@
 main presenter
 "
 Class {
-	#name : #MDPresenter,
+	#name : #MDMainPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'metricPresenter',
@@ -14,14 +14,14 @@ Class {
 }
 
 { #category : #specs }
-MDPresenter class >> create [
+MDMainPresenter class >> create [
 	self new 
 		initMooseModel ;
 		openWithSpec
 ]
 
 { #category : #specs }
-MDPresenter class >> defaultSpec [
+MDMainPresenter class >> defaultSpec [
 	^ SpecTableLayout column
 		cellInset: 50;
 		
@@ -31,18 +31,18 @@ MDPresenter class >> defaultSpec [
 ]
 
 { #category : #specs }
-MDPresenter class >> runMe [
+MDMainPresenter class >> runMe [
 	<script>
 	self create
 ]
 
 { #category : #update }
-MDPresenter >> extent [
+MDMainPresenter >> extent [
 ^600@400
 ]
 
 { #category : #initialization }
-MDPresenter >> initMooseModel [
+MDMainPresenter >> initMooseModel [
 self loadModelToStudy.
 self populateListView.
 
@@ -50,7 +50,7 @@ self populateListView.
 ]
 
 { #category : #initialization }
-MDPresenter >> initMooseModelView [
+MDMainPresenter >> initMooseModelView [
 	mooseView := self instantiate: FastTablePresenter.
 	mooseView
 		handlesDoubleClick: true;
@@ -63,7 +63,7 @@ MDPresenter >> initMooseModelView [
 ]
 
 { #category : #initialization }
-MDPresenter >> initializePresenter [
+MDMainPresenter >> initializePresenter [
 	mooseView
 		doubleClickAction: [ :item | 
 			guiModel focusedEntities: mooseView selectedItem.
@@ -71,7 +71,7 @@ MDPresenter >> initializePresenter [
 ]
 
 { #category : #initialization }
-MDPresenter >> initializeWidgets [
+MDMainPresenter >> initializeWidgets [
 	guiModel := MDGUIModel new.
 	guiModel addMetric: MDMetricLOC new.
 	guiModel addMetric: MDMetricLCOM3 new.
@@ -83,46 +83,46 @@ MDPresenter >> initializeWidgets [
 ]
 
 { #category : #accessing }
-MDPresenter >> loadModelToStudy [
+MDMainPresenter >> loadModelToStudy [
 guiModel loadProjectFromMSEFile
 ]
 
 { #category : #accessing }
-MDPresenter >> metricList [
+MDMainPresenter >> metricList [
 	^ metricList
 ]
 
 { #category : #accessing }
-MDPresenter >> metricList: anObject [
+MDMainPresenter >> metricList: anObject [
 	metricList := anObject
 ]
 
 { #category : #accessing }
-MDPresenter >> metricPresenter [
+MDMainPresenter >> metricPresenter [
 	^ metricPresenter
 ]
 
 { #category : #accessing }
-MDPresenter >> model [
+MDMainPresenter >> model [
 	^ guiModel
 ]
 
 { #category : #accessing }
-MDPresenter >> mooseView [
+MDMainPresenter >> mooseView [
 	^ mooseView
 ]
 
 { #category : #accessing }
-MDPresenter >> populateListView [
+MDMainPresenter >> populateListView [
 	^ mooseView items: guiModel mooseModelSummary
 ]
 
 { #category : #accessing }
-MDPresenter >> simulateDoubleClick [
+MDMainPresenter >> simulateDoubleClick [
 	^mooseView doubleClick: mooseView doubleClickAction
 ]
 
 { #category : #api }
-MDPresenter >> title [
+MDMainPresenter >> title [
 ^'Metric DashBoard'
 ]

@@ -16,7 +16,7 @@ Class {
 
 { #category : #specs }
 MDMetricPresenter class >> defaultSpec [
-	^ SpecRowLayout composed
+	^ SpecTableLayout row
 		newColumn: [ :cl | 
 			cl
 				add: #subMetric1;
@@ -37,10 +37,10 @@ self new openWithSpec
 
 { #category : #initialization }
 MDMetricPresenter >> initializeWidgets [
-metric := self newButton .
-subMetric1  := self newButton .
-subMetric2  := self newButton .
-subMetric3  := self newButton .
+	metric := self newButton label: 'metric'.
+	subMetric1 := self newButton label: 'subMetric1'.
+	subMetric2 := self newButton label: 'subMetric2'.
+	subMetric3 := self newButton label: 'subMetric1'
 ]
 
 { #category : #accessing }
@@ -63,8 +63,26 @@ MDMetricPresenter >> subMetric3 [
 	^ subMetric3
 ]
 
-{ #category : #'as yet unclassified' }
-MDMetricPresenter >> subscribeToMetric: aMetric [
-aMetric addListener: self.
-
+{ #category : #initialization }
+MDMetricPresenter >> updateWith: aCollection [
+	| metricName |
+	metricName := aCollection at: 1.
+	metric
+		label:
+			metricName , String cr
+				, ((aCollection at: 2) truncateTo: 0.001) asString.
+	aCollection size = 2
+		ifTrue: [ ^ self ].
+	subMetric1
+		label:
+			(aCollection at: 3) , metricName , String cr
+				, (aCollection at: 4) asString.
+	subMetric2
+		label:
+			(aCollection at: 5) , metricName , String cr
+				, (aCollection at: 6) asString.
+	subMetric3
+		label:
+			(aCollection at: 7) , metricName , String cr
+				, (aCollection at: 8) asString
 ]
