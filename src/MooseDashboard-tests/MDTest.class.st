@@ -101,8 +101,10 @@ MDTest >> testMDMetricLOC [
 
 { #category : #tests }
 MDTest >> testStudyModelShouldNotBeNilIfDoubleClick [
-	presenter mooseView setSelectedItem: presenter mooseView listItems first.
+	presenter mooseView
+		setSelectedItem: presenter mooseView listItems first.
 	presenter mooseView selectedItem.
 	presenter simulateDoubleClick.
+	
 	self deny: presenter model focusedEntities isNil
 ]

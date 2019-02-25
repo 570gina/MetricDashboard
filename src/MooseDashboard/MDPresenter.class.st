@@ -24,7 +24,7 @@ MDPresenter class >> create [
 MDPresenter class >> defaultSpec [
 	^ SpecTableLayout column
 		cellInset: 50;
-		add: #metricList;
+		
 		add: #metricPresenter;
 		add: #mooseView;
 		yourself
@@ -125,12 +125,4 @@ MDPresenter >> simulateDoubleClick [
 { #category : #api }
 MDPresenter >> title [
 ^'Metric DashBoard'
-]
-
-{ #category : #update }
-MDPresenter >> updateMetricPresenterWith: anUpdater [
-	metricPresenter
-		updateMetric1Label: anUpdater currentClassCohesion;
-		updateMetric2Label: anUpdater averageclassePackageTightCohesion;
-		updateMetric3Label: anUpdater averageSystemClassesTightCohesion
 ]

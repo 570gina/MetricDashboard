@@ -17,16 +17,6 @@ MDGUIModel >> addMetric: aMetric [
 	metrics add: aMetric
 ]
 
-{ #category : #metrics }
-MDGUIModel >> averageSystemClassesTightCohesion [
-	^ (mooseModel allModelClasses collect: #tightClassCohesion) average
-]
-
-{ #category : #metrics }
-MDGUIModel >> averageclassePackageTightCohesion [
-
-]
-
 { #category : #accessing }
 MDGUIModel >> focusedEntities [
 	^ focusedEntities
@@ -81,27 +71,4 @@ MDGUIModel >> projectModel: anObject [
 { #category : #conversion }
 MDGUIModel >> truncateFloat: aFloat to: aValue [
 	^ (aFloat truncateTo: aValue) asString
-]
-
-{ #category : #utilities }
-MDGUIModel >> updatePresenter: aPresenter [
-	"| updater precision |
-	precision := 0.01.
-	updater := MDUpdater new
-		currentClassCohesion:
-			'Class TCC: '
-				, (self truncateFloat: self currentClassCohesion to: precision);
-		averageSystemClassesTightCohesion:
-			'AVG Sys TCC: '
-				,
-					(self
-						truncateFloat: self averageSystemClassesTightCohesion
-						to: precision);
-		averageclassePackageTightCohesion:
-			'AVG Pkg TCC: '
-				,
-					(self
-						truncateFloat: self averageclassePackageTightCohesion
-						to: precision).
-	aPresenter updateMetricPresenterWith: updater"
 ]
