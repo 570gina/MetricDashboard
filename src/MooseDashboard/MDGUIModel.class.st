@@ -7,7 +7,9 @@ Class {
 	#instVars : [
 		'mooseModel',
 		'focusedEntities',
-		'metrics'
+		'metrics',
+		'query',
+		'percentage'
 	],
 	#category : #'MooseDashboard-Core'
 }
@@ -30,7 +32,8 @@ MDGUIModel >> focusedEntities: anObject [
 { #category : #initialize }
 MDGUIModel >> initialize [
 	super initialize.
-	metrics := OrderedCollection new
+	metrics := OrderedCollection new.
+	query := MDQuery new.
 ]
 
 { #category : #utilities }
@@ -56,6 +59,11 @@ MDGUIModel >> mooseModelSummary [
 	mooseModel allModelNamespaces.
 	mooseModel allModelClasses.
 	mooseModel allModelMethods}
+]
+
+{ #category : #utilities }
+MDGUIModel >> percentageOfBigClasses [
+^query percentageOfBigClasses: focusedEntities in: focusedEntities. 
 ]
 
 { #category : #accessing }

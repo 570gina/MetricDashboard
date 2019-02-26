@@ -57,7 +57,8 @@ MDMetricDashBoard >> guiModel: anObject [
 
 { #category : #initialization }
 MDMetricDashBoard >> initializeWidgets [
-	metric1 := self instantiate: MDMetricPresenter.
+	metric1 := (self instantiate: MDMetricPresenter)
+	.
 	metric3 := self instantiate: MDMetricPresenter.
 	metric2 := self instantiate: MDMetricPresenter.
 	cohesionTodo2 := self newButton icon: (self iconNamed: #add)

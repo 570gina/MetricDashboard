@@ -6,6 +6,7 @@ Class {
 	#name : #MDMetricPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
+		'metricName',
 		'metric',
 		'subMetric1',
 		'subMetric2',
@@ -16,14 +17,13 @@ Class {
 
 { #category : #specs }
 MDMetricPresenter class >> defaultSpec [
-	^ SpecTableLayout row
-		newColumn: [ :cl | 
-			cl
+	^ SpecTableLayout column
+		add: #metricName;
+		add: #metric;
+		newRow: [ :r | 
+			r
 				add: #subMetric1;
-				newRow: [ :r | 
-					r
-						add: #subMetric2;
-						add: #metric ];
+				add: #subMetric2;
 				add: #subMetric3 ];
 		yourself
 ]
@@ -37,15 +37,35 @@ self new openWithSpec
 
 { #category : #initialization }
 MDMetricPresenter >> initializeWidgets [
-	metric := self newButton label: 'metric'.
-	subMetric1 := self newButton label: 'subMetric1'.
-	subMetric2 := self newButton label: 'subMetric2'.
-	subMetric3 := self newButton label: 'subMetric1'
+	metricName := self newLabel
+		label: 'metricName';
+		emphasis: #bold.
+	metric := self newButton
+		label: 'metric';
+		color: Color white;
+		yourself.
+	subMetric1 := self newButton
+		label: 'subMetric1';
+		color: Color white;
+		yourself.
+	subMetric2 := self newButton
+		label: 'subMetric2';
+		color: Color white;
+		yourself.
+	subMetric3 := self newButton
+		label: 'subMetric1';
+		color: Color white;
+		yourself
 ]
 
 { #category : #accessing }
 MDMetricPresenter >> metric [
 	^ metric
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> metricName [
+	^ metricName
 ]
 
 { #category : #accessing }
@@ -65,24 +85,24 @@ MDMetricPresenter >> subMetric3 [
 
 { #category : #initialization }
 MDMetricPresenter >> updateWith: aCollection [
-	| metricName |
-	metricName := aCollection at: 1.
+
+	metricName label: (aCollection at: 1).
 	metric
 		label:
-			metricName , String cr
-				, ((aCollection at: 2) truncateTo: 0.001) asString.
+			
+			 ((aCollection at: 2) truncateTo: 0.001) asString.
 	aCollection size = 2
 		ifTrue: [ ^ self ].
 	subMetric1
 		label:
-			(aCollection at: 3) , metricName , String cr
+			(aCollection at: 3) ,  String cr
 				, (aCollection at: 4) asString.
 	subMetric2
 		label:
-			(aCollection at: 5) , metricName , String cr
+			(aCollection at: 5), String cr
 				, (aCollection at: 6) asString.
 	subMetric3
 		label:
-			(aCollection at: 7) , metricName , String cr
+			(aCollection at: 7) , String cr
 				, (aCollection at: 8) asString
 ]
