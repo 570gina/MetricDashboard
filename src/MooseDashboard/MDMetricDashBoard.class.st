@@ -18,7 +18,7 @@ Class {
 MDMetricDashBoard class >> defaultSpec [
 	^ SpecTableLayout row
 		cellInset: 10;
-		maxCellSize: 150;
+	
 		minCellSize: 100;
 		vResizing: #shrinkWrap;
 		hResizing: #shrinkWrap;
@@ -100,5 +100,5 @@ MDMetricDashBoard >> updateViewFor: aGuiModel [
 	focusedEntities := aGuiModel focusedEntities.
 	(allMetrics at: 1) update: metric1 with: focusedEntities.
 	(allMetrics at: 2) update: metric2 with: focusedEntities.
-	(allMetrics at: 2) update: metric3 with: focusedEntities
+	(allMetrics at: 3) update: metric3 with: focusedEntities
 ]

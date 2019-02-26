@@ -22,6 +22,17 @@ MDMetricLOC >> computeMetricFor: anEntity [
 	^anEntity numberOfLinesOfCode 
 ]
 
+{ #category : #compute }
+MDMetricLOC >> twentyPercentOfBigClassesLOC: aCollection [
+	| twentyPercentSize |
+	twentyPercentSize := (aCollection size * 0.2)  asInteger  .
+	^ (((aCollection asOrderedCollection
+		collect: [ :each | self computeMetricFor: each ])
+		sort: [ :a :b | a > b ])
+		copyFrom: 1
+		to: twentyPercentSize ) sum
+]
+
 { #category : #updating }
 MDMetricLOC >> update: aMetricPresenter with: anObject [
 	| col |
@@ -29,8 +40,8 @@ MDMetricLOC >> update: aMetricPresenter with: anObject [
 	col
 		add: self displayName;
 		add: (self aggregateMetricFor: anObject);
-		add: 'MAX';
-		add: (self maxMetricFor: anObject);
+		add: '20%Big Classes ';
+		add: (self twentyPercentOfBigClassesLOC: anObject);
 		add: 'Core';
 		add:
 			(anObject coreClasses isEmpty
