@@ -110,27 +110,3 @@ MDMetricPresenter >> updateSubMetric3WithName: aString value: aNumber [
 	subMetric3
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString
 ]
-
-{ #category : #initialization }
-MDMetricPresenter >> updateWith: aCollection [
-
-	metricName label: (aCollection at: 1).
-	metric
-		label:
-			
-			 ((aCollection at: 2) truncateTo: 0.001) asString.
-	aCollection size = 2
-		ifTrue: [ ^ self ].
-	subMetric1
-		label:
-			(aCollection at: 3) ,  String cr
-				, (aCollection at: 4) asString.
-	subMetric2
-		label:
-			(aCollection at: 5), String cr
-				, (aCollection at: 6) asString.
-	subMetric3
-		label:
-			(aCollection at: 7) , String cr
-				, (aCollection at: 8) asString
-]

@@ -94,7 +94,7 @@ MDMetricDashBoard >> metric3: anObject [
 	metric3 := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'view updating' }
 MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
 	| percent |
 	percent := (guiModel percentage * 100) asString.
@@ -103,10 +103,10 @@ MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
 		updateDbLabel: aMetric displayName;
 		updateSubMetric1WithName: 'Core'
 			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore);
-		updateSubMetric2WithName: percent , '%' , ' Big classes'
-			value: (aMetric aggregateMetricFor: guiModel percentOfComplexeClasses);
-		updateSubMetric3WithName: percent , '%' , 'Complexe classes'
-			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore)
+		updateSubMetric2WithName: 'Big classes'
+			value: (aMetric aggregateMetricFor: guiModel percentBigClasses);
+		updateSubMetric3WithName: 'Complex classes'
+			value: (aMetric aggregateMetricFor: guiModel percentOfComplexeClasses)
 ]
 
 { #category : #'view updating' }

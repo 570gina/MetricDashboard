@@ -28,7 +28,7 @@ MDTest >> createTestingModel [
 		yourself.
 	pckg := self
 		createFamix: FAMIXPackage
-		named: 'TestMokePackageCore'
+		named: 'TestMokePackage'
 		owner: [ :x |  ].
 	clazz := self
 		createFamix: FAMIXClass
