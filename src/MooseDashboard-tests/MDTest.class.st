@@ -34,7 +34,7 @@ MDTest >> createTestingModel [
 		createFamix: FAMIXClass
 		named: 'TestClass1'
 		owner: [ :c | c parentPackage: pckg ].
-	#('TestClass2' 'TestClass3' 'ModelClass4')
+	#('TestClass2' 'TestClass3' 'ModelClass4' 'TestClass4')
 		do: [ :each | 
 			| sub |
 			sub := self
@@ -78,16 +78,35 @@ MDTest >> setUp [
 ]
 
 { #category : #tests }
+MDTest >> test20percentBigClass [
+	| query |
+	query := MDQuery new.
+	self
+		assert: (query percentageOfBigClasses: 0.2 in: rootCurrent allModelClasses ) size
+		equals: 1
+]
+
+{ #category : #tests }
+MDTest >> test20percentBigClassLOCShouldBe4 [
+	| query result |
+	query := MDQuery new.
+	result := query
+		percentageOfBigClasses: 0.2
+		in: rootCurrent allModelClasses.
+	self assert: (MDMetricLOC new aggregateMetricFor: result) equals: 4
+]
+
+{ #category : #tests }
 MDTest >> testMDMetricCyclomaticComplexity [
 	| metric classes |
 	classes := rootCurrent allModelClasses.
 	classes
 		sort: [ :a :b | a cyclomaticComplexity > b cyclomaticComplexity ].
 	metric := MDMetricCyclomaticComplexity new.
-	self assert: (metric aggregateMetricFor: classes) equals: 3.5.
+	self assert: (metric aggregateMetricFor: classes) equals: 2.8.
 	self
 		assert: (metric aggregateMetricFor: (classes copyFrom: 2 to: classes size))
-		equals: 2
+		equals: 1.5
 ]
 
 { #category : #tests }
