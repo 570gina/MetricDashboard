@@ -22,3 +22,13 @@ MDQuery >> percentageOfBigClasses: aFloat in: aModel [
 		copyFrom: 1
 		to: bigClassesSize
 ]
+
+{ #category : #queries }
+MDQuery >> percentageOfComplexeClasses: aFloat in: aModel [
+	| classesSize |
+	classesSize := (aModel size * aFloat) asInteger.
+	^ (aModel asOrderedCollection
+		sort: [ :a :b | a cyclomaticComplexity > b cyclomaticComplexity ])
+		copyFrom: 1
+		to: classesSize
+]

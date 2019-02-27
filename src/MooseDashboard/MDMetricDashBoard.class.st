@@ -104,8 +104,8 @@ MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
 		updateSubMetric1WithName: 'Core'
 			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore);
 		updateSubMetric2WithName: percent , '%' , ' Big classes'
-			value: (aMetric aggregateMetricFor: guiModel percentBigClasses);
-		updateSubMetric3WithName: 'Core'
+			value: (aMetric aggregateMetricFor: guiModel percentOfComplexeClasses);
+		updateSubMetric3WithName: percent , '%' , 'Complexe classes'
 			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore)
 ]
 

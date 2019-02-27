@@ -71,6 +71,11 @@ MDGUIModel >> percentBigClasses [
 	^ query percentageOfBigClasses: percentage in: focusedEntities
 ]
 
+{ #category : #'as yet unclassified' }
+MDGUIModel >> percentOfComplexeClasses [
+	^ query percentageOfComplexeClasses: percentage in: focusedEntities
+]
+
 { #category : #accessor }
 MDGUIModel >> percentage [
 	^ percentage
@@ -83,7 +88,7 @@ MDGUIModel >> percentage: anObject [
 
 { #category : #utilities }
 MDGUIModel >> percentageOfBigClasses [
-^query percentageOfBigClasses: focusedEntities in: focusedEntities. 
+	^ query percentageOfBigClasses: percentage  in: focusedEntities
 ]
 
 { #category : #accessing }
