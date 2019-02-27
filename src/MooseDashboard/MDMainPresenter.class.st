@@ -36,11 +36,6 @@ MDMainPresenter class >> runMe [
 	self create
 ]
 
-{ #category : #update }
-MDMainPresenter >> extent [
-^600@400
-]
-
 { #category : #initialization }
 MDMainPresenter >> initMooseModel [
 self loadModelToStudy.
@@ -72,7 +67,8 @@ MDMainPresenter >> initializePresenter [
 
 { #category : #initialization }
 MDMainPresenter >> initializeWidgets [
-	guiModel := MDGUIModel new.
+	guiModel := MDGUIModel new .
+	guiModel percentage: 0.2.
 	guiModel addMetric: MDMetricLOC new.
 	guiModel addMetric: MDMetricLCOM3 new.
 	guiModel addMetric: MDMetricCyclomaticComplexity new.

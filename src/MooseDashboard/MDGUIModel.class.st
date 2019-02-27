@@ -29,6 +29,11 @@ MDGUIModel >> focusedEntities: anObject [
 	focusedEntities := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+MDGUIModel >> focusedEntitiesCore [
+	^ (query coreClasses: focusedEntities) ifEmpty: [ #() ]
+]
+
 { #category : #initialize }
 MDGUIModel >> initialize [
 	super initialize.
@@ -59,6 +64,21 @@ MDGUIModel >> mooseModelSummary [
 	mooseModel allModelNamespaces.
 	mooseModel allModelClasses.
 	mooseModel allModelMethods}
+]
+
+{ #category : #'as yet unclassified' }
+MDGUIModel >> percentBigClasses [
+	^ query percentageOfBigClasses: percentage in: focusedEntities
+]
+
+{ #category : #accessor }
+MDGUIModel >> percentage [
+	^ percentage
+]
+
+{ #category : #accessor }
+MDGUIModel >> percentage: anObject [
+	percentage := anObject
 ]
 
 { #category : #utilities }

@@ -28,7 +28,7 @@ MDTest >> createTestingModel [
 		yourself.
 	pckg := self
 		createFamix: FAMIXPackage
-		named: 'TestMokePackage'
+		named: 'TestMokePackageCore'
 		owner: [ :x |  ].
 	clazz := self
 		createFamix: FAMIXClass
@@ -105,6 +105,5 @@ MDTest >> testStudyModelShouldNotBeNilIfDoubleClick [
 		setSelectedItem: presenter mooseView listItems first.
 	presenter mooseView selectedItem.
 	presenter simulateDoubleClick.
-	
 	self deny: presenter model focusedEntities isNil
 ]

@@ -94,12 +94,26 @@ MDMetricDashBoard >> metric3: anObject [
 	metric3 := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
+	| percent |
+	percent := (guiModel percentage * 100) asString.
+	aComposablePresenter
+		updateMainMetric: (aMetric aggregateMetricFor: guiModel focusedEntities);
+		updateDbLabel: aMetric displayName;
+		updateSubMetric1WithName: 'Core'
+			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore);
+		updateSubMetric2WithName: percent , '%' , ' Big classes'
+			value: (aMetric aggregateMetricFor: guiModel percentBigClasses);
+		updateSubMetric3WithName: 'Core'
+			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore)
+]
+
 { #category : #'view updating' }
 MDMetricDashBoard >> updateViewFor: aGuiModel [
-	| allMetrics focusedEntities |
+	| allMetrics  |
 	allMetrics := aGuiModel metrics.
-	focusedEntities := aGuiModel focusedEntities.
-	(allMetrics at: 1) update: metric1 with: focusedEntities.
-	(allMetrics at: 2) update: metric2 with: focusedEntities.
-	(allMetrics at: 3) update: metric3 with: focusedEntities
+	self updateSubView: metric1 withMetric: (allMetrics at: 1).
+	self updateSubView: metric2 withMetric: (allMetrics at: 2).
+	self updateSubView: metric3 withMetric: (allMetrics at: 3)
 ]

@@ -32,22 +32,3 @@ MDMetricLOC >> twentyPercentOfBigClassesLOC: aCollection [
 		copyFrom: 1
 		to: twentyPercentSize ) sum
 ]
-
-{ #category : #updating }
-MDMetricLOC >> update: aMetricPresenter with: anObject [
-	| col |
-	col := OrderedCollection new.
-	col
-		add: self displayName;
-		add: (self aggregateMetricFor: anObject);
-		add: '20%Big Classes ';
-		add: (self twentyPercentOfBigClassesLOC: anObject);
-		add: 'Core';
-		add:
-			(anObject coreClasses isEmpty
-				ifTrue: [ 0 ]
-				ifFalse: [ self aggregateMetricFor: anObject coreClasses ]);
-		add: 'MIN';
-		add: (self minMetricFor: anObject).
-	aMetricPresenter updateWith: col
-]

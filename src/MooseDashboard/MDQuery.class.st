@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #queries }
+MDQuery >> coreClasses: aModel [
+	^ (aModel 
+		select:
+			[ :each | each container mooseName asLowercase matchesRegex: '.*core.*' ])
+		asSet
+]
+
+{ #category : #queries }
 MDQuery >> percentageOfBigClasses: aFloat in: aModel [
 	| bigClassesSize |
 

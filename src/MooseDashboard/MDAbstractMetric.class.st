@@ -20,8 +20,10 @@ MDAbstractMetric >> aggregateMetricFor: aCollection [
 
 { #category : #compute }
 MDAbstractMetric >> averageMetricFor: aCollection [
-	^ (aCollection collect: [ :each | self computeMetricFor: each ])
-		average
+	| col |
+	col := aCollection collect: [ :each | self computeMetricFor: each ].
+	col ifEmpty: [ ^ 0 ].
+	^ col average
 ]
 
 { #category : #compute }
@@ -41,17 +43,9 @@ MDAbstractMetric >> minMetricFor: aCollection [
 
 { #category : #compute }
 MDAbstractMetric >> sumMetricFor: aCollection [
-	^ (aCollection collect: [ :each | self computeMetricFor: each ]) asOrderedCollection 
-		sum
-]
-
-{ #category : #updating }
-MDAbstractMetric >> update: aMetricPresenter with: anObject [
-| col |
-col:= OrderedCollection new.
-col add: self displayName .
-col add: (self aggregateMetricFor: anObject ).
-
-aMetricPresenter updateWith: col.
-	
+	| col |
+	col := (aCollection collect: [ :each | self computeMetricFor: each ])
+		asOrderedCollection.
+	col ifEmpty: [ ^ 0 ].
+	^ col sum
 ]
