@@ -83,31 +83,31 @@ MDMetricPresenter >> subMetric3 [
 	^ subMetric3
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDMetricPresenter >> updateDbLabel: aString [
 	metricName label: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDMetricPresenter >> updateMainMetric: aNumber [
 	metric label: (aNumber truncateTo: 0.001) asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDMetricPresenter >> updateSubMetric1WithName: aString value: aNumber [
 	
 	subMetric1
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDMetricPresenter >> updateSubMetric2WithName: aString value: aNumber [
 	
 	subMetric2
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #update }
 MDMetricPresenter >> updateSubMetric3WithName: aString value: aNumber [
 	subMetric3
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString

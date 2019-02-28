@@ -1,3 +1,6 @@
+"
+I query models
+"
 Class {
 	#name : #MDQuery,
 	#superclass : #Object,

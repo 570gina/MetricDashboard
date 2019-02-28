@@ -41,16 +41,6 @@ MDMetricDashBoard >> cohesionTodo2 [
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> cohesionTodo2: anObject [
-	cohesionTodo2 := anObject
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> guiModel [
-	^ guiModel
-]
-
-{ #category : #accessing }
 MDMetricDashBoard >> guiModel: anObject [
 	guiModel := anObject
 ]
@@ -70,18 +60,8 @@ MDMetricDashBoard >> metric1 [
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> metric1: anObject [
-	metric1 := anObject
-]
-
-{ #category : #accessing }
 MDMetricDashBoard >> metric2 [
 	^ metric2
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> metric2: anObject [
-	metric2 := anObject
 ]
 
 { #category : #accessing }
@@ -89,15 +69,8 @@ MDMetricDashBoard >> metric3 [
 	^ metric3
 ]
 
-{ #category : #accessing }
-MDMetricDashBoard >> metric3: anObject [
-	metric3 := anObject
-]
-
 { #category : #'view updating' }
 MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
-	| percent |
-	percent := (guiModel percentage * 100) asString.
 	aComposablePresenter
 		updateMainMetric: (aMetric aggregateMetricFor: guiModel focusedEntities);
 		updateDbLabel: aMetric displayName;

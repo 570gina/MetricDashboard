@@ -29,7 +29,7 @@ MDGUIModel >> focusedEntities: anObject [
 	focusedEntities := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 MDGUIModel >> focusedEntitiesCore [
 	^ (query coreClasses: focusedEntities) ifEmpty: [ #() ]
 ]
@@ -54,11 +54,6 @@ MDGUIModel >> metrics [
 ]
 
 { #category : #accessing }
-MDGUIModel >> metrics: anObject [
-	metrics := anObject
-]
-
-{ #category : #accessing }
 MDGUIModel >> mooseModelSummary [
 	^ {mooseModel allModelPackages.
 	mooseModel allModelNamespaces.
@@ -67,12 +62,12 @@ MDGUIModel >> mooseModelSummary [
 	mooseModel allModelNamespaces first}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 MDGUIModel >> percentBigClasses [
 	^ query percentageOfBigClasses: percentage in: focusedEntities
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #queries }
 MDGUIModel >> percentOfComplexeClasses [
 	^ query percentageOfComplexeClasses: percentage in: focusedEntities
 ]
@@ -90,16 +85,6 @@ MDGUIModel >> percentage: anObject [
 { #category : #utilities }
 MDGUIModel >> percentageOfBigClasses [
 	^ query percentageOfBigClasses: percentage  in: focusedEntities
-]
-
-{ #category : #accessing }
-MDGUIModel >> projectModel [
-	^ mooseModel
-]
-
-{ #category : #accessing }
-MDGUIModel >> projectModel: anObject [
-	mooseModel := anObject
 ]
 
 { #category : #conversion }

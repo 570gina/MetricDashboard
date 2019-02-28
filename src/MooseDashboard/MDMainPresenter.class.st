@@ -80,17 +80,7 @@ MDMainPresenter >> initializeWidgets [
 
 { #category : #accessing }
 MDMainPresenter >> loadModelToStudy [
-guiModel loadProjectFromMSEFile
-]
-
-{ #category : #accessing }
-MDMainPresenter >> metricList [
-	^ metricList
-]
-
-{ #category : #accessing }
-MDMainPresenter >> metricList: anObject [
-	metricList := anObject
+	^ guiModel loadProjectFromMSEFile
 ]
 
 { #category : #accessing }
