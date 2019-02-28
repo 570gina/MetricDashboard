@@ -61,7 +61,7 @@ MDMainPresenter >> initMooseModelView [
 MDMainPresenter >> initializePresenter [
 	mooseView
 		doubleClickAction: [ :item | 
-			guiModel focusedEntities: mooseView selectedItem.
+			guiModel focusedEntities: mooseView selectedItem mdDoubleClick.
 			metricPresenter updateViewFor: guiModel ]
 ]
 

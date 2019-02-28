@@ -97,6 +97,19 @@ MDTest >> test20percentBigClassLOCShouldBe4 [
 ]
 
 { #category : #tests }
+MDTest >> testDoubleClickOnPackageShouldReturnTestModelClasses [
+	presenter mooseView items: rootCurrent allPackages.
+	presenter mooseView setSelectedItem: rootCurrent allPackages first.
+	presenter simulateDoubleClick.
+	presenter model focusedEntities.
+	self
+		assert:
+			(rootCurrent allModelClasses asOrderedCollection
+				sort: [ :a :b | a name <= b name ])
+		equals: (presenter model focusedEntities sort: [ :a :b | a name <= b name ])
+]
+
+{ #category : #tests }
 MDTest >> testMDMetricCyclomaticComplexity [
 	| metric classes |
 	classes := rootCurrent allModelClasses.

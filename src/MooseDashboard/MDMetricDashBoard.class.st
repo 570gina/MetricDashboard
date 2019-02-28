@@ -111,7 +111,7 @@ MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
 
 { #category : #'view updating' }
 MDMetricDashBoard >> updateViewFor: aGuiModel [
-	| allMetrics  |
+	| allMetrics |
 	allMetrics := aGuiModel metrics.
 	self updateSubView: metric1 withMetric: (allMetrics at: 1).
 	self updateSubView: metric2 withMetric: (allMetrics at: 2).

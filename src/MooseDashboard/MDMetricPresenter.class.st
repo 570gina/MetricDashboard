@@ -95,12 +95,14 @@ MDMetricPresenter >> updateMainMetric: aNumber [
 
 { #category : #'as yet unclassified' }
 MDMetricPresenter >> updateSubMetric1WithName: aString value: aNumber [
+	
 	subMetric1
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString
 ]
 
 { #category : #'as yet unclassified' }
 MDMetricPresenter >> updateSubMetric2WithName: aString value: aNumber [
+	
 	subMetric2
 		label: aString , String cr , (aNumber truncateTo: 0.001) asString
 ]

@@ -63,7 +63,8 @@ MDGUIModel >> mooseModelSummary [
 	^ {mooseModel allModelPackages.
 	mooseModel allModelNamespaces.
 	mooseModel allModelClasses.
-	mooseModel allModelMethods}
+	mooseModel allModelMethods.
+	mooseModel allModelNamespaces first}
 ]
 
 { #category : #'as yet unclassified' }
