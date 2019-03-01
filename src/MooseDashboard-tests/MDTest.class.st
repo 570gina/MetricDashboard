@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'rootCurrent',
-		'presenter'
+		'presenter',
+		'mostComplexClass'
 	],
 	#category : #'MooseDashboard-Tests'
 }
@@ -49,6 +50,7 @@ MDTest >> createTestingModel [
 	mth
 		cyclomaticComplexity: 8;
 		numberOfLinesOfCode: 2.
+	mostComplexClass := clazz.
 	clazz := rootCurrent entityNamed: 'TestClass3'.
 	mth := self
 		createFamix: FAMIXMethod
@@ -94,6 +96,17 @@ MDTest >> test20percentBigClassLOCShouldBe4 [
 		percentageOfBigClasses: 0.2
 		in: rootCurrent allModelClasses.
 	self assert: (MDMetricLOC new aggregateMetricFor: result) equals: 4
+]
+
+{ #category : #tests }
+MDTest >> test20percentageOfComplexeClasses [
+	| query complexeClasses |
+	query := MDQuery new.
+	complexeClasses := query
+		percentageOfComplexeClasses: 0.2
+		in: rootCurrent allModelClasses.
+	self assert: complexeClasses size equals: 1.
+	self assert: complexeClasses first  equals: mostComplexClass
 ]
 
 { #category : #tests }
