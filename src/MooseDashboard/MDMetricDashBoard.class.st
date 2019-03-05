@@ -6,10 +6,7 @@ Class {
 	#superclass : #ComposablePresenter,
 	#instVars : [
 		'guiModel',
-		'cohesionTodo2',
-		'metric1',
-		'metric2',
-		'metric3'
+		'metricPresenters'
 	],
 	#category : #'MooseDashboard-Core'
 }
@@ -22,10 +19,9 @@ MDMetricDashBoard class >> defaultSpec [
 		minCellSize: 100;
 		vResizing: #shrinkWrap;
 		hResizing: #shrinkWrap;
-		add: #metric1;
-		add: #metric2;
-		add: #metric3;
-		add: #cohesionTodo2;
+		add: #metricPresenter1;
+		add: #metricPresenter2;
+		add: #metricPresenter3;
 		yourself
 ]
 
@@ -36,57 +32,53 @@ MDMetricDashBoard class >> runMe [
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> cohesionTodo2 [
-	^ cohesionTodo2
+MDMetricDashBoard >> guiModel: anObject [
+	guiModel := anObject.
+	1 to: 3 do: [ :i |
+		(self metricPresenter: i) guiModel: anObject]
 ]
 
-{ #category : #accessing }
-MDMetricDashBoard >> guiModel: anObject [
-	guiModel := anObject
+{ #category : #initialization }
+MDMetricDashBoard >> initialize [
+	metricPresenters := #(nil nil nil) asOrderedCollection.	"must be before self initializeWidgets"
+	super initialize.
 ]
 
 { #category : #initialization }
 MDMetricDashBoard >> initializeWidgets [
-	metric1 := (self instantiate: MDMetricPresenter)
-	.
-	metric3 := self instantiate: MDMetricPresenter.
-	metric2 := self instantiate: MDMetricPresenter.
-	cohesionTodo2 := self newButton icon: (self iconNamed: #add)
+	1 to: 3 do: [ :i | 
+		metricPresenters
+			at: i
+			put:
+				((self instantiate: MDMetricPresenter)
+					id: i;
+					yourself) ]
+]
+
+{ #category : #private }
+MDMetricDashBoard >> metricPresenter1 [
+	"exists only for the MDMetricDashBoard class>>defaultSpec"
+	^ self metricPresenter: 1
+]
+
+{ #category : #private }
+MDMetricDashBoard >> metricPresenter2 [
+	"exists only for the MDMetricDashBoard class>>defaultSpec"
+	^ self metricPresenter: 2
+]
+
+{ #category : #private }
+MDMetricDashBoard >> metricPresenter3 [
+	"exists only for the MDMetricDashBoard class>>defaultSpec"
+	^ self metricPresenter: 3
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> metric1 [
-	^ metric1
+MDMetricDashBoard >> metricPresenter: id [
+	^ metricPresenters at: id
 ]
 
-{ #category : #accessing }
-MDMetricDashBoard >> metric2 [
-	^ metric2
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> metric3 [
-	^ metric3
-]
-
-{ #category : #'view updating' }
-MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
-	aComposablePresenter
-		updateMainMetric: (aMetric aggregateMetricFor: guiModel focusedEntities);
-		updateDbLabel: aMetric displayName;
-		updateSubMetric1WithName: 'Core'
-			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore);
-		updateSubMetric2WithName: 'Big classes'
-			value: (aMetric aggregateMetricFor: guiModel percentBigClasses);
-		updateSubMetric3WithName: 'Complex classes'
-			value: (aMetric aggregateMetricFor: guiModel percentOfComplexeClasses)
-]
-
-{ #category : #'view updating' }
-MDMetricDashBoard >> updateViewFor: aGuiModel [
-	| allMetrics |
-	allMetrics := aGuiModel metrics.
-	self updateSubView: metric1 withMetric: (allMetrics at: 1).
-	self updateSubView: metric2 withMetric: (allMetrics at: 2).
-	self updateSubView: metric3 withMetric: (allMetrics at: 3)
+{ #category : #update }
+MDMetricDashBoard >> updateView [
+	1 to: 3 do: [ :i | (self metricPresenter: i) update ]
 ]

@@ -20,5 +20,7 @@ MDMetricCyclomaticComplexity >> aggregateMetricFor: aCollection [
 
 { #category : #compute }
 MDMetricCyclomaticComplexity >> computeMetricFor: anEntity [
-	^anEntity cyclomaticComplexity 
+	^ [anEntity cyclomaticComplexity] 
+		on: MessageNotUnderstood
+		do: [ 1 ]
 ]

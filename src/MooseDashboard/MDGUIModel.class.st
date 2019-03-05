@@ -8,8 +8,7 @@ Class {
 		'mooseModel',
 		'focusedEntities',
 		'metrics',
-		'query',
-		'percentage'
+		'subQueries'
 	],
 	#category : #'MooseDashboard-Core'
 }
@@ -17,6 +16,11 @@ Class {
 { #category : #accessing }
 MDGUIModel >> addMetric: aMetric [
 	metrics add: aMetric
+]
+
+{ #category : #accessing }
+MDGUIModel >> addSubQuery: aQuery [
+	subQueries add: aQuery
 ]
 
 { #category : #accessing }
@@ -29,16 +33,19 @@ MDGUIModel >> focusedEntities: anObject [
 	focusedEntities := anObject
 ]
 
-{ #category : #queries }
-MDGUIModel >> focusedEntitiesCore [
-	^ (query coreClasses: focusedEntities) ifEmpty: [ #() ]
-]
-
 { #category : #initialize }
 MDGUIModel >> initialize [
 	super initialize.
-	metrics := OrderedCollection new.
-	query := MDQuery new.
+	metrics := {MDMetricLOC new.
+	MDMetricCyclomaticComplexity new.
+	MDMetricLCOM3 new} asOrderedCollection.
+	subQueries := {(MDQueryCore new master: self).
+	(MDQueryBig new
+		master: self;
+		threshold: 20 percent).
+	(MDQueryComplex new
+		master: self;
+		threshold: 20 percent)} asOrderedCollection
 ]
 
 { #category : #utilities }
@@ -49,8 +56,8 @@ MDGUIModel >> loadProjectFromMSEFile [
 ]
 
 { #category : #accessing }
-MDGUIModel >> metrics [
-	^ metrics
+MDGUIModel >> metric: id [
+	^ metrics at: id
 ]
 
 { #category : #accessing }
@@ -62,32 +69,7 @@ MDGUIModel >> mooseModelSummary [
 	mooseModel allModelNamespaces first}
 ]
 
-{ #category : #queries }
-MDGUIModel >> percentBigClasses [
-	^ query percentageOfBigClasses: percentage in: focusedEntities
-]
-
-{ #category : #queries }
-MDGUIModel >> percentOfComplexeClasses [
-	^ query percentageOfComplexeClasses: percentage in: focusedEntities
-]
-
-{ #category : #accessor }
-MDGUIModel >> percentage [
-	^ percentage
-]
-
-{ #category : #accessor }
-MDGUIModel >> percentage: anObject [
-	percentage := anObject
-]
-
-{ #category : #utilities }
-MDGUIModel >> percentageOfBigClasses [
-	^ query percentageOfBigClasses: percentage  in: focusedEntities
-]
-
-{ #category : #conversion }
-MDGUIModel >> truncateFloat: aFloat to: aValue [
-	^ (aFloat truncateTo: aValue) asString
+{ #category : #accessing }
+MDGUIModel >> subQuery: id [
+	^ subQueries at: id
 ]
