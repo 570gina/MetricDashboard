@@ -19,7 +19,7 @@ MDMetricLOC >> aggregateMetricFor: aCollection [
 
 { #category : #compute }
 MDMetricLOC >> computeMetricFor: anEntity [
-	^anEntity numberOfLinesOfCode 
+	^ anEntity numberOfLinesOfCode
 ]
 
 { #category : #compute }

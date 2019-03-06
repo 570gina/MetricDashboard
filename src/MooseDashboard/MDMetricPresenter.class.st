@@ -6,11 +6,11 @@ Class {
 	#name : #MDMetricPresenter,
 	#superclass : #ComposablePresenter,
 	#instVars : [
-		'metricName',
-		'metric',
-		'subMetric1',
-		'subMetric2',
-		'subMetric3'
+		'guiModel',
+		'subMetrics',
+		'mainMetricValue',
+		'mainMetricName',
+		'id'
 	],
 	#category : #'MooseDashboard-Core'
 }
@@ -18,8 +18,8 @@ Class {
 { #category : #specs }
 MDMetricPresenter class >> defaultSpec [
 	^ SpecTableLayout column
-		add: #metricName;
-		add: #metric;
+		add: #mainMetricName;
+		add: #mainMetricValue;
 		newRow: [ :r | 
 			r
 				add: #subMetric1;
@@ -35,80 +35,105 @@ self new openWithSpec
 
 ]
 
+{ #category : #accessing }
+MDMetricPresenter >> guiModel: aGuiModel [
+	guiModel := aGuiModel.
+	mainMetricName label: self myMetric displayName 
+	
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> id: aNumber [
+	id := aNumber
+]
+
+{ #category : #initialization }
+MDMetricPresenter >> initialize [
+	subMetrics := #(nil nil nil) asOrderedCollection.	"must be before self initializeWidgets"
+	super initialize
+]
+
 { #category : #initialization }
 MDMetricPresenter >> initializeWidgets [
-	metricName := self newLabel
-		label: 'metricName';
+	mainMetricName := self newLabel
+		label: '';
 		emphasis: #bold.
-	metric := self newButton
-		label: 'metric';
+	mainMetricValue := self newButton
+		label: '';
 		color: Color white;
 		yourself.
-	subMetric1 := self newButton
-		label: 'subMetric1';
+	subMetrics at: 1 put: (self newButton
+		label: '';
 		color: Color white;
-		yourself.
-	subMetric2 := self newButton
-		label: 'subMetric2';
+		yourself).
+	subMetrics at: 2 put: (self newButton
+		label: '';
 		color: Color white;
-		yourself.
-	subMetric3 := self newButton
-		label: 'subMetric1';
+		yourself).
+	subMetrics at: 3 put: (self newButton
+		label: '';
 		color: Color white;
-		yourself
+		yourself)
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> metric [
-	^ metric
+MDMetricPresenter >> mainMetricName [
+	^ mainMetricName
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> metricName [
-	^ metricName
+MDMetricPresenter >> mainMetricValue [
+	^ mainMetricValue
 ]
 
 { #category : #accessing }
+MDMetricPresenter >> myMetric [
+	^ guiModel metric: id
+]
+
+{ #category : #private }
 MDMetricPresenter >> subMetric1 [
-	^ subMetric1
+	"exists only for the MDMetricPresenter class>>defaultSpec"
+	^ self subMetric: 1
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 MDMetricPresenter >> subMetric2 [
-	^ subMetric2
+	"exists only for the MDMetricPresenter class>>defaultSpec"
+	^ self subMetric: 2
+]
+
+{ #category : #private }
+MDMetricPresenter >> subMetric3 [
+	"exists only for the MDMetricPresenter class>>defaultSpec"
+	^ self subMetric: 3
 ]
 
 { #category : #accessing }
-MDMetricPresenter >> subMetric3 [
-	^ subMetric3
+MDMetricPresenter >> subMetric: id [
+	^ subMetrics at: id
 ]
 
 { #category : #update }
-MDMetricPresenter >> updateDbLabel: aString [
-	metricName label: aString
+MDMetricPresenter >> update [
+	self updateMainMetric.
+	self updateSubMetrics
 ]
 
 { #category : #update }
-MDMetricPresenter >> updateMainMetric: aNumber [
-	metric label: (aNumber truncateTo: 0.001) asString
+MDMetricPresenter >> updateMainMetric [
+	| value |
+	value := self myMetric aggregateMetricFor: guiModel focusedEntities.
+	1 halt.
+	mainMetricValue label: (value truncateTo: 0.001) asString
 ]
 
 { #category : #update }
-MDMetricPresenter >> updateSubMetric1WithName: aString value: aNumber [
-	
-	subMetric1
-		label: aString , String cr , (aNumber truncateTo: 0.001) asString
-]
-
-{ #category : #update }
-MDMetricPresenter >> updateSubMetric2WithName: aString value: aNumber [
-	
-	subMetric2
-		label: aString , String cr , (aNumber truncateTo: 0.001) asString
-]
-
-{ #category : #update }
-MDMetricPresenter >> updateSubMetric3WithName: aString value: aNumber [
-	subMetric3
-		label: aString , String cr , (aNumber truncateTo: 0.001) asString
+MDMetricPresenter >> updateSubMetrics [
+	1 to: 3 do: [ :iSub | 
+		| sub value |
+		sub := guiModel subQuery: iSub.
+		value := self myMetric aggregateMetricFor: sub entities.
+		(self subMetric: iSub)
+			label: sub displayName , String cr , (value truncateTo: 0.001) asString ]
 ]

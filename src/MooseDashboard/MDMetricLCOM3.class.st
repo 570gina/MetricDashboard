@@ -19,5 +19,7 @@ MDMetricLCOM3 >> aggregateMetricFor: aCollection [
 
 { #category : #compute }
 MDMetricLCOM3 >> computeMetricFor: anEntity [
-	^anEntity lcom3 
+	^ [anEntity lcom3]
+		on: MessageNotUnderstood
+		do: [ 0 ]
 ]
