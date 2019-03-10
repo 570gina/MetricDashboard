@@ -124,7 +124,6 @@ MDMetricPresenter >> update [
 MDMetricPresenter >> updateMainMetric [
 	| value |
 	value := self myMetric aggregateMetricFor: guiModel focusedEntities.
-	1 halt.
 	mainMetricValue label: (value truncateTo: 0.001) asString
 ]
 

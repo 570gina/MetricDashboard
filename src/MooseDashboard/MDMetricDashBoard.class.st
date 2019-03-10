@@ -3,27 +3,13 @@ I show the metrics of the dashboard
 "
 Class {
 	#name : #MDMetricDashBoard,
-	#superclass : #ComposablePresenter,
+	#superclass : #DynamicComposablePresenter,
 	#instVars : [
 		'guiModel',
 		'metricPresenters'
 	],
 	#category : #'MooseDashboard-Core'
 }
-
-{ #category : #specs }
-MDMetricDashBoard class >> defaultSpec [
-	^ SpecTableLayout row
-		cellInset: 10;
-	
-		minCellSize: 100;
-		vResizing: #shrinkWrap;
-		hResizing: #shrinkWrap;
-		add: #metricPresenter1;
-		add: #metricPresenter2;
-		add: #metricPresenter3;
-		yourself
-]
 
 { #category : #specs }
 MDMetricDashBoard class >> runMe [
@@ -46,31 +32,26 @@ MDMetricDashBoard >> initialize [
 
 { #category : #initialization }
 MDMetricDashBoard >> initializeWidgets [
+	| model |
 	1 to: 3 do: [ :i | 
-		metricPresenters
-			at: i
-			put:
-				((self instantiate: MDMetricPresenter)
-					id: i;
-					yourself) ]
+		model := (self instantiate: MDMetricPresenter)
+			id: i;
+			yourself.
+		metricPresenters at: i put: model.
+		self assign: model to: ('metricPresenter' , i asString) asSymbol ]
 ]
 
-{ #category : #private }
-MDMetricDashBoard >> metricPresenter1 [
-	"exists only for the MDMetricDashBoard class>>defaultSpec"
-	^ self metricPresenter: 1
-]
-
-{ #category : #private }
-MDMetricDashBoard >> metricPresenter2 [
-	"exists only for the MDMetricDashBoard class>>defaultSpec"
-	^ self metricPresenter: 2
-]
-
-{ #category : #private }
-MDMetricDashBoard >> metricPresenter3 [
-	"exists only for the MDMetricDashBoard class>>defaultSpec"
-	^ self metricPresenter: 3
+{ #category : #accessing }
+MDMetricDashBoard >> layout [
+	^ SpecTableLayout row
+		cellInset: 10;
+		minCellSize: 100;
+		vResizing: #shrinkWrap;
+		hResizing: #shrinkWrap;
+		add: #metricPresenter1;
+		add: #metricPresenter2;
+		add: #metricPresenter3;
+		yourself
 ]
 
 { #category : #accessing }
