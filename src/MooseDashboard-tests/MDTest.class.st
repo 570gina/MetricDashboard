@@ -81,32 +81,41 @@ MDTest >> setUp [
 
 { #category : #tests }
 MDTest >> test20percentBigClass [
-	| query |
-	query := MDQuery new.
+	| query context |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
 	self
-		assert: (query percentageOfBigClasses: 0.2 in: rootCurrent allModelClasses ) size
+		assert: (query firstEntitiesFor: #numberOfLinesOfCode) size
 		equals: 1
 ]
 
 { #category : #tests }
 MDTest >> test20percentBigClassLOCShouldBe4 [
-	| query result |
-	query := MDQuery new.
-	result := query
-		percentageOfBigClasses: 0.2
-		in: rootCurrent allModelClasses.
+		| query context result |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
+	result := query firstEntitiesFor: #numberOfLinesOfCode.
+
 	self assert: (MDMetricLOC new aggregateMetricFor: result) equals: 4
 ]
 
 { #category : #tests }
 MDTest >> test20percentageOfComplexeClasses [
-	| query complexeClasses |
-	query := MDQuery new.
-	complexeClasses := query
-		percentageOfComplexeClasses: 0.2
-		in: rootCurrent allModelClasses.
+	| query context complexeClasses |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
+	complexeClasses := query firstEntitiesFor: #cyclomaticComplexity.
 	self assert: complexeClasses size equals: 1.
-	self assert: complexeClasses first  equals: mostComplexClass
+	self assert: complexeClasses first equals: mostComplexClass
 ]
 
 { #category : #tests }
