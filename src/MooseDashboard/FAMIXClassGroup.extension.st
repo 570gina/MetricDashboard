@@ -7,3 +7,8 @@ FAMIXClassGroup >> coreClasses [
 			[ :each | each container mooseName asLowercase matchesRegex: '.*core.*' ])
 		asSet
 ]
+
+{ #category : #'*MooseDashboard' }
+FAMIXClassGroup >> mdDoubleClick [
+	^ self
+]

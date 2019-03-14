@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'rootCurrent',
-		'presenter'
+		'presenter',
+		'mostComplexClass'
 	],
 	#category : #'MooseDashboard-Tests'
 }
@@ -28,13 +29,13 @@ MDTest >> createTestingModel [
 		yourself.
 	pckg := self
 		createFamix: FAMIXPackage
-		named: 'TestMokePackageCore'
+		named: 'TestMokePackage'
 		owner: [ :x |  ].
 	clazz := self
 		createFamix: FAMIXClass
 		named: 'TestClass1'
 		owner: [ :c | c parentPackage: pckg ].
-	#('TestClass2' 'TestClass3' 'ModelClass4')
+	#('TestClass2' 'TestClass3' 'ModelClass4' 'TestClass4')
 		do: [ :each | 
 			| sub |
 			sub := self
@@ -49,6 +50,7 @@ MDTest >> createTestingModel [
 	mth
 		cyclomaticComplexity: 8;
 		numberOfLinesOfCode: 2.
+	mostComplexClass := clazz.
 	clazz := rootCurrent entityNamed: 'TestClass3'.
 	mth := self
 		createFamix: FAMIXMethod
@@ -78,16 +80,68 @@ MDTest >> setUp [
 ]
 
 { #category : #tests }
+MDTest >> test20percentBigClass [
+	| query context |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
+	self
+		assert: (query firstEntitiesFor: #numberOfLinesOfCode) size
+		equals: 1
+]
+
+{ #category : #tests }
+MDTest >> test20percentBigClassLOCShouldBe4 [
+		| query context result |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
+	result := query firstEntitiesFor: #numberOfLinesOfCode.
+
+	self assert: (MDMetricLOC new aggregateMetricFor: result) equals: 4
+]
+
+{ #category : #tests }
+MDTest >> test20percentageOfComplexeClasses [
+	| query context complexeClasses |
+	context := MDGUIModel new
+		focusedEntities: rootCurrent allModelClasses.
+	query := MDQueryMetricThreshold new
+		threshold: 20 percent;
+		master: context.
+	complexeClasses := query firstEntitiesFor: #cyclomaticComplexity.
+	self assert: complexeClasses size equals: 1.
+	self assert: complexeClasses first equals: mostComplexClass
+]
+
+{ #category : #tests }
+MDTest >> testDoubleClickOnPackageShouldReturnTestModelClasses [
+	presenter mooseView items: rootCurrent allPackages.
+	presenter mooseView setSelectedItem: rootCurrent allPackages first.
+	presenter simulateDoubleClick.
+	presenter model focusedEntities.
+	self
+		assert:
+			(rootCurrent allModelClasses asOrderedCollection
+				sort: [ :a :b | a name <= b name ])
+		equals: (presenter model focusedEntities sort: [ :a :b | a name <= b name ])
+]
+
+{ #category : #tests }
 MDTest >> testMDMetricCyclomaticComplexity [
 	| metric classes |
 	classes := rootCurrent allModelClasses.
 	classes
 		sort: [ :a :b | a cyclomaticComplexity > b cyclomaticComplexity ].
 	metric := MDMetricCyclomaticComplexity new.
-	self assert: (metric aggregateMetricFor: classes) equals: 3.5.
+	self assert: (metric aggregateMetricFor: classes) equals: 2.8.
 	self
 		assert: (metric aggregateMetricFor: (classes copyFrom: 2 to: classes size))
-		equals: 2
+		equals: 1.5
 ]
 
 { #category : #tests }

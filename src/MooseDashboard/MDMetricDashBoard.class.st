@@ -3,31 +3,13 @@ I show the metrics of the dashboard
 "
 Class {
 	#name : #MDMetricDashBoard,
-	#superclass : #ComposablePresenter,
+	#superclass : #DynamicComposablePresenter,
 	#instVars : [
 		'guiModel',
-		'cohesionTodo2',
-		'metric1',
-		'metric2',
-		'metric3'
+		'metricPresenters'
 	],
 	#category : #'MooseDashboard-Core'
 }
-
-{ #category : #specs }
-MDMetricDashBoard class >> defaultSpec [
-	^ SpecTableLayout row
-		cellInset: 10;
-	
-		minCellSize: 100;
-		vResizing: #shrinkWrap;
-		hResizing: #shrinkWrap;
-		add: #metric1;
-		add: #metric2;
-		add: #metric3;
-		add: #cohesionTodo2;
-		yourself
-]
 
 { #category : #specs }
 MDMetricDashBoard class >> runMe [
@@ -36,84 +18,48 @@ MDMetricDashBoard class >> runMe [
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> cohesionTodo2 [
-	^ cohesionTodo2
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> cohesionTodo2: anObject [
-	cohesionTodo2 := anObject
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> guiModel [
-	^ guiModel
-]
-
-{ #category : #accessing }
 MDMetricDashBoard >> guiModel: anObject [
-	guiModel := anObject
+	guiModel := anObject.
+	1 to: 3 do: [ :i |
+		(self metricPresenter: i) guiModel: anObject]
+]
+
+{ #category : #initialization }
+MDMetricDashBoard >> initialize [
+	metricPresenters := #(nil nil nil) asOrderedCollection.	"must be before self initializeWidgets"
+	super initialize.
 ]
 
 { #category : #initialization }
 MDMetricDashBoard >> initializeWidgets [
-	metric1 := (self instantiate: MDMetricPresenter)
-	.
-	metric3 := self instantiate: MDMetricPresenter.
-	metric2 := self instantiate: MDMetricPresenter.
-	cohesionTodo2 := self newButton icon: (self iconNamed: #add)
+	| model |
+	1 to: 3 do: [ :i | 
+		model := (self instantiate: MDMetricPresenter)
+			id: i;
+			yourself.
+		metricPresenters at: i put: model.
+		self assign: model to: ('metricPresenter' , i asString) asSymbol ]
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> metric1 [
-	^ metric1
+MDMetricDashBoard >> layout [
+	^ SpecTableLayout row
+		cellInset: 10;
+		minCellSize: 100;
+		vResizing: #shrinkWrap;
+		hResizing: #shrinkWrap;
+		add: #metricPresenter1;
+		add: #metricPresenter2;
+		add: #metricPresenter3;
+		yourself
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> metric1: anObject [
-	metric1 := anObject
+MDMetricDashBoard >> metricPresenter: id [
+	^ metricPresenters at: id
 ]
 
-{ #category : #accessing }
-MDMetricDashBoard >> metric2 [
-	^ metric2
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> metric2: anObject [
-	metric2 := anObject
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> metric3 [
-	^ metric3
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> metric3: anObject [
-	metric3 := anObject
-]
-
-{ #category : #'as yet unclassified' }
-MDMetricDashBoard >> updateSubView: aComposablePresenter withMetric: aMetric [
-	| percent |
-	percent := (guiModel percentage * 100) asString.
-	aComposablePresenter
-		updateMainMetric: (aMetric aggregateMetricFor: guiModel focusedEntities);
-		updateDbLabel: aMetric displayName;
-		updateSubMetric1WithName: 'Core'
-			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore);
-		updateSubMetric2WithName: percent , '%' , ' Big classes'
-			value: (aMetric aggregateMetricFor: guiModel percentOfComplexeClasses);
-		updateSubMetric3WithName: percent , '%' , 'Complexe classes'
-			value: (aMetric aggregateMetricFor: guiModel focusedEntitiesCore)
-]
-
-{ #category : #'view updating' }
-MDMetricDashBoard >> updateViewFor: aGuiModel [
-	| allMetrics  |
-	allMetrics := aGuiModel metrics.
-	self updateSubView: metric1 withMetric: (allMetrics at: 1).
-	self updateSubView: metric2 withMetric: (allMetrics at: 2).
-	self updateSubView: metric3 withMetric: (allMetrics at: 3)
+{ #category : #update }
+MDMetricDashBoard >> updateView [
+	1 to: 3 do: [ :i | (self metricPresenter: i) update ]
 ]
