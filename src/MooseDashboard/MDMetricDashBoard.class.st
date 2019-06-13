@@ -6,10 +6,22 @@ Class {
 	#superclass : #DynamicComposablePresenter,
 	#instVars : [
 		'guiModel',
-		'metricPresenters'
+		'metricPresenters',
+		'firstMetric',
+		'secondMetric',
+		'thirdMetric'
 	],
 	#category : #'MooseDashboard-Core'
 }
+
+{ #category : #specs }
+MDMetricDashBoard class >> defaultSpec [
+	^ SpecBoxLayout newHorizontal 
+		add: #firstMetric;
+		add: #secondMetric;
+		add: #thirdMetric;
+		yourself
+]
 
 { #category : #specs }
 MDMetricDashBoard class >> runMe [
@@ -25,33 +37,19 @@ MDMetricDashBoard >> guiModel: anObject [
 ]
 
 { #category : #initialization }
-MDMetricDashBoard >> initialize [
-	metricPresenters := #(nil nil nil) asOrderedCollection.	"must be before self initializeWidgets"
-	super initialize.
-]
-
-{ #category : #initialization }
 MDMetricDashBoard >> initializeWidgets [
-	| model |
-	1 to: 3 do: [ :i | 
-		model := (self instantiate: MDMetricPresenter)
-			id: i;
-			yourself.
-		metricPresenters at: i put: model.
-		self assign: model to: ('metricPresenter' , i asString) asSymbol ]
-]
-
-{ #category : #accessing }
-MDMetricDashBoard >> layout [
-	^ SpecTableLayout row
-		cellInset: 10;
-		minCellSize: 100;
-		vResizing: #shrinkWrap;
-		hResizing: #shrinkWrap;
-		add: #metricPresenter1;
-		add: #metricPresenter2;
-		add: #metricPresenter3;
-		yourself
+	firstMetric := (self instantiate: MDMetricPresenter)
+		id: 1;
+		yourself.
+	secondMetric := (self instantiate: MDMetricPresenter)
+		id: 2;
+		yourself.
+	thirdMetric := (self instantiate: MDMetricPresenter)
+		id: 3;
+		yourself.
+	metricPresenters := {firstMetric.
+	secondMetric.
+	thirdMetric}
 ]
 
 { #category : #accessing }

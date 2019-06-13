@@ -10,21 +10,25 @@ Class {
 		'subMetrics',
 		'mainMetricValue',
 		'mainMetricName',
-		'id'
+		'id',
+		'firstSubMetric',
+		'secondSubMetric',
+		'thirdSubMetric'
 	],
 	#category : #'MooseDashboard-Core'
 }
 
 { #category : #specs }
 MDMetricPresenter class >> defaultSpec [
-	^ SpecTableLayout column
-		add: #mainMetricName;
-		add: #mainMetricValue;
-		newRow: [ :r | 
-			r
-				add: #subMetric1;
-				add: #subMetric2;
-				add: #subMetric3 ];
+	^ SpecBoxLayout newVertical
+		add: (SpecBoxLayout newVertical add:#mainMetricName
+			withConstraints: [ :c | c height: self defaultFont height ];
+		add: #mainMetricValue);
+		add:
+			(SpecBoxLayout newHorizontal
+				add: #firstSubMetric;
+				add: #secondSubMetric;
+				add: #thirdSubMetric);
 		yourself
 ]
 
@@ -48,32 +52,21 @@ MDMetricPresenter >> id: aNumber [
 ]
 
 { #category : #initialization }
-MDMetricPresenter >> initialize [
-	subMetrics := #(nil nil nil) asOrderedCollection.	"must be before self initializeWidgets"
-	super initialize
-]
-
-{ #category : #initialization }
 MDMetricPresenter >> initializeWidgets [
-	mainMetricName := self newLabel
-		label: '';
-		emphasis: #bold.
+	mainMetricName := self newLabel emphasis: #bold.
 	mainMetricValue := self newButton
-		label: '';
 		color: Color white;
 		yourself.
-	subMetrics at: 1 put: (self newButton
-		label: '';
+	firstSubMetric := self newButton
 		color: Color white;
-		yourself).
-	subMetrics at: 2 put: (self newButton
-		label: '';
+		yourself.
+	secondSubMetric := self newButton
 		color: Color white;
-		yourself).
-	subMetrics at: 3 put: (self newButton
-		label: '';
+		yourself.
+	thirdSubMetric := self newButton
 		color: Color white;
-		yourself)
+		yourself.
+		subMetrics :={firstSubMetric.secondSubMetric.thirdSubMetric}
 ]
 
 { #category : #accessing }
@@ -89,29 +82,6 @@ MDMetricPresenter >> mainMetricValue [
 { #category : #accessing }
 MDMetricPresenter >> myMetric [
 	^ guiModel metric: id
-]
-
-{ #category : #private }
-MDMetricPresenter >> subMetric1 [
-	"exists only for the MDMetricPresenter class>>defaultSpec"
-	^ self subMetric: 1
-]
-
-{ #category : #private }
-MDMetricPresenter >> subMetric2 [
-	"exists only for the MDMetricPresenter class>>defaultSpec"
-	^ self subMetric: 2
-]
-
-{ #category : #private }
-MDMetricPresenter >> subMetric3 [
-	"exists only for the MDMetricPresenter class>>defaultSpec"
-	^ self subMetric: 3
-]
-
-{ #category : #accessing }
-MDMetricPresenter >> subMetric: id [
-	^ subMetrics at: id
 ]
 
 { #category : #update }
@@ -133,6 +103,6 @@ MDMetricPresenter >> updateSubMetrics [
 		| sub value |
 		sub := guiModel subQuery: iSub.
 		value := self myMetric aggregateMetricFor: sub entities.
-		(self subMetric: iSub)
+		 (subMetrics at: iSub)
 			label: sub displayName , String cr , (value truncateTo: 0.001) asString ]
 ]

@@ -20,9 +20,7 @@ MDMainPresenter class >> create [
 
 { #category : #specs }
 MDMainPresenter class >> defaultSpec [
-	^ SpecTableLayout column
-		cellInset: 50;
-		
+	^ SpecBoxLayout newVertical 
 		add: #metricsDashboard;
 		add: #mooseView;
 		yourself
@@ -57,8 +55,8 @@ MDMainPresenter >> initialize [
 { #category : #initialization }
 MDMainPresenter >> initializePresenter [
 	mooseView
-		handlesDoubleClick: true;
-		doubleClickAction: [ :item |
+		activatesOnDoubleClick;
+		doubleClickAction: [ :item | 
 			guiModel focusedEntities: mooseView selectedItem mdDoubleClick.
 			metricsDashboard updateView ]
 ]
@@ -66,7 +64,7 @@ MDMainPresenter >> initializePresenter [
 { #category : #initialization }
 MDMainPresenter >> initializeWidgets [
 	metricsDashboard := self instantiate: MDMetricDashBoard.
-	mooseView := self instantiate: FastTablePresenter.
+	mooseView := self instantiate: ListPresenter.
 	mooseView
 		displayBlock: [ :item | 
 			item class = MooseModel
