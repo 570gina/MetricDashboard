@@ -42,8 +42,7 @@ self new openWithSpec
 { #category : #accessing }
 MDMetricPresenter >> guiModel: aGuiModel [
 	guiModel := aGuiModel.
-	mainMetricName label: self myMetric displayName 
-	
+	mainMetricName label: self myMetric displayName
 ]
 
 { #category : #accessing }
@@ -67,8 +66,18 @@ MDMetricPresenter >> initializeWidgets [
 ]
 
 { #category : #accessing }
+MDMetricPresenter >> mainMetricValue [
+^mainMetricValue
+]
+
+{ #category : #accessing }
 MDMetricPresenter >> myMetric [
 	^ guiModel metric: id
+]
+
+{ #category : #accessing }
+MDMetricPresenter >> subMetric: index [
+	^ subMetrics at: index
 ]
 
 { #category : #update }

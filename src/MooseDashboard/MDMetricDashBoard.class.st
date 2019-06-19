@@ -28,6 +28,11 @@ MDMetricDashBoard class >> runMe [
 ]
 
 { #category : #accessing }
+MDMetricDashBoard >> firstMetric [
+^firstMetric
+]
+
+{ #category : #accessing }
 MDMetricDashBoard >> guiModel: aGuiModel [
 	firstMetric guiModel: aGuiModel.
 	secondMetric guiModel: aGuiModel.
@@ -47,6 +52,15 @@ MDMetricDashBoard >> initializeWidgets [
 		id: 3;
 		yourself.
 
+]
+
+{ #category : #accessing }
+MDMetricDashBoard >> secondMetric [ ^secondMetric 
+]
+
+{ #category : #accessing }
+MDMetricDashBoard >> thirdMetric [
+	^ thirdMetric
 ]
 
 { #category : #update }
