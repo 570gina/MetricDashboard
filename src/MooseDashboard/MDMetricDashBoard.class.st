@@ -5,8 +5,6 @@ Class {
 	#name : #MDMetricDashBoard,
 	#superclass : #DynamicComposablePresenter,
 	#instVars : [
-		'guiModel',
-		'metricPresenters',
 		'firstMetric',
 		'secondMetric',
 		'thirdMetric'
@@ -30,10 +28,11 @@ MDMetricDashBoard class >> runMe [
 ]
 
 { #category : #accessing }
-MDMetricDashBoard >> guiModel: anObject [
-	guiModel := anObject.
-	1 to: 3 do: [ :i |
-		(self metricPresenter: i) guiModel: anObject]
+MDMetricDashBoard >> guiModel: aGuiModel [
+	firstMetric guiModel: aGuiModel.
+	secondMetric guiModel: aGuiModel.
+	thirdMetric guiModel: aGuiModel.
+
 ]
 
 { #category : #initialization }
@@ -47,17 +46,12 @@ MDMetricDashBoard >> initializeWidgets [
 	thirdMetric := (self instantiate: MDMetricPresenter)
 		id: 3;
 		yourself.
-	metricPresenters := {firstMetric.
-	secondMetric.
-	thirdMetric}
-]
 
-{ #category : #accessing }
-MDMetricDashBoard >> metricPresenter: id [
-	^ metricPresenters at: id
 ]
 
 { #category : #update }
 MDMetricDashBoard >> updateView [
-	1 to: 3 do: [ :i | (self metricPresenter: i) update ]
+		firstMetric update.
+	secondMetric update.
+	thirdMetric update
 ]

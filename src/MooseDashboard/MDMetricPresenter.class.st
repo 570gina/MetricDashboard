@@ -54,29 +54,16 @@ MDMetricPresenter >> id: aNumber [
 { #category : #initialization }
 MDMetricPresenter >> initializeWidgets [
 	mainMetricName := self newLabel emphasis: #bold.
-	mainMetricValue := self newButton
-		color: Color white;
-		yourself.
+	mainMetricValue := self newButton.
 	firstSubMetric := self newButton
-		color: Color white;
-		yourself.
+.
 	secondSubMetric := self newButton
-		color: Color white;
-		yourself.
+.
 	thirdSubMetric := self newButton
-		color: Color white;
-		yourself.
-		subMetrics :={firstSubMetric.secondSubMetric.thirdSubMetric}
-]
-
-{ #category : #accessing }
-MDMetricPresenter >> mainMetricName [
-	^ mainMetricName
-]
-
-{ #category : #accessing }
-MDMetricPresenter >> mainMetricValue [
-	^ mainMetricValue
+.
+	subMetrics := {firstSubMetric.
+	secondSubMetric.
+	thirdSubMetric}
 ]
 
 { #category : #accessing }
