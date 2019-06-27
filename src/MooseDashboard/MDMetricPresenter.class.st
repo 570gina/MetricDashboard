@@ -40,6 +40,15 @@ self new openWithSpec
 ]
 
 { #category : #accessing }
+MDMetricPresenter >> allValues [
+	| values |
+	values := OrderedCollection new: 4.
+	values add: mainMetricValue label.
+	1 to: 3 do: [ :i | values add: (subMetrics at: i) label ].
+	^ values
+]
+
+{ #category : #accessing }
 MDMetricPresenter >> guiModel: aGuiModel [
 	guiModel := aGuiModel.
 	mainMetricName label: self myMetric displayName
