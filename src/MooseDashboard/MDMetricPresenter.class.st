@@ -108,6 +108,26 @@ MDMetricPresenter >> updateSubMetrics [
 		| sub value |
 		sub := guiModel subQuery: iSub.
 		value := self myMetric aggregateMetricFor: sub entities.
-		 (subMetrics at: iSub)
+		(subMetrics at: iSub)
 			label: sub displayName , String cr , (value truncateTo: 0.001) asString ]
+]
+
+{ #category : #event }
+MDMetricPresenter >> whenFirstSubMetricIsClick: aBlock [
+	firstSubMetric action:  [aBlock value: 1]
+]
+
+{ #category : #event }
+MDMetricPresenter >> whenMainMetricValueIsClick: aBlock [
+	mainMetricValue action: aBlock
+]
+
+{ #category : #event }
+MDMetricPresenter >> whenSecondSubMetricIsClick: aBlock [
+	secondSubMetric action:  [aBlock value: 2]
+]
+
+{ #category : #event }
+MDMetricPresenter >> whenThirdSubMetricIsClick: aBlock [
+	thirdSubMetric action: [aBlock value:3]
 ]

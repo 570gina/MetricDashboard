@@ -55,6 +55,11 @@ MDMetricDashBoard >> initializeWidgets [
 ]
 
 { #category : #accessing }
+MDMetricDashBoard >> metrics [
+	^{firstMetric .secondMetric .thirdMetric}
+]
+
+{ #category : #accessing }
 MDMetricDashBoard >> secondMetric [ ^secondMetric 
 ]
 
@@ -68,4 +73,18 @@ MDMetricDashBoard >> updateView [
 		firstMetric update.
 	secondMetric update.
 	thirdMetric update
+]
+
+{ #category : #event }
+MDMetricDashBoard >> whenMainMetricIsClick: aBlock [
+self metrics do:[:each|each whenMainMetricValueIsClick: aBlock.]
+
+]
+
+{ #category : #event }
+MDMetricDashBoard >> whenSubMetricsIsClick: aBlock [
+	self metrics do: [ :each | each  whenFirstSubMetricIsClick: aBlock.
+	each whenSecondSubMetricIsClick: aBlock.
+	each whenThirdSubMetricIsClick: aBlock ]
+	
 ]
